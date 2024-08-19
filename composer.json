@@ -1,0 +1,28 @@
+{
+    "name": "tualo/papervote-optical",
+    "description": "tualo - papervote - optical",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Thomas Hoffmann",
+            "email": "thomas.hoffmann@tualo.de"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Tualo\\Office\\PaperVoteOptical\\": "src/"
+        },
+        "files": ["src/functions.php"]
+    },
+    "minimum-stability": "dev",
+    "require": {
+        "ramsey/uuid": "*",
+        "tualo/bsc": "*",
+        "tualo/tualojs": "*",
+        "tualo/ds": "*",
+        "tualo/monacoeditor": "*",
+        "tualo/tualopgp": "*",
+        "phpseclib/phpseclib": "*"
+    }
+}
