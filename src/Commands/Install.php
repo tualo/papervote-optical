@@ -9,6 +9,8 @@ class Install extends CommandLineInstallSQL  implements ICommandline{
     public static $shortName  = 'papervote-optical';
     public static $files = [
         
+        'install/ds_class'=> 'setup ds_class',
+
         'install/stackcodes_setup'=> 'setup stackcodes_setup',
         'install/stackcodes_setup.ds'=> 'setup stackcodes_setup.ds',
 
