@@ -59,6 +59,9 @@ class Install extends CommandLineInstallSQL  implements ICommandline{
         'install/view_sz_optical_config'=> 'setup view_sz_optical_config',
         'install/view_sz_optical_config.ds'=> 'setup view_sz_optical_config.ds',
 
+        'install/stimmzettel_pdfs'=> 'setup stimmzettel_pdfs',
+        'install/stimmzettel_pdfs.ds'=> 'setup stimmzettel_pdfs.ds',
+
     ];
     
 }
