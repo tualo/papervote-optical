@@ -23,6 +23,7 @@
         "tualo/ds": "*",
         "tualo/monacoeditor": "*",
         "tualo/tualopgp": "*",
-        "phpseclib/phpseclib": "*"
+        "phpseclib/phpseclib": "*",
+        "spatie/pdf-to-image": "^3.0"
     }
 }

@@ -13,19 +13,37 @@ Ext.define('Tualo.PaperVoteOptical.lazy.models.ScanSetup', {
     },
     formulas: {
       ftitle: function(get){
-        let txt='XYZ';
+        let txt='Konfiguratuion der Stimmzettellesung';
         return txt;
       }
     },
     stores: {
         
-      wahlscheinstatus: {
-        autoLoad: false,
-        type: 'wahlscheinstatus_store',
-        listeners: {
-          // load: 'onWahlscheinstatusLoad'
-        }
+      stimmzettel: {
+        type: 'stimmzettel_store',
+        autoLoad: true
       },
+
+      stimmzettel_roi: {
+        type: 'stimmzettel_roi_store',
+        autoLoad: false
+      },
+
+      sz_rois: {
+          type: 'sz_rois_store',
+          autoLoad: false,
+          listeners: {
+            write: 'onRoisWrite'
+          }
+      },
+       
+      kandidaten_bp_column: {
+        autoLoad: false,
+        type: 'kandidaten_bp_column_store',
+        listeners: {
+          datachanged: 'onCandidatesDataChanged'
+        }
+      }
       
     }
   });
