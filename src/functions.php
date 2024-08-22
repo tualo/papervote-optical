@@ -1,7 +1,7 @@
 <?php
 
 require_once "Compiler.php";
-require_once "Routes/JsLoader.php";
+require_once "Routes/JSLoader.php";
 require_once "Routes/optical/Image.php";
 require_once "Commands/Install.php";
 
