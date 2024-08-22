@@ -62,6 +62,9 @@ class Install extends CommandLineInstallSQL  implements ICommandline{
         'install/stimmzettel_pdfs'=> 'setup stimmzettel_pdfs',
         'install/stimmzettel_pdfs.ds'=> 'setup stimmzettel_pdfs.ds',
 
+        'install/kandidaten_bp_column'=> 'setup kandidaten_bp_column',
+        'install/kandidaten_bp_column.ds'=> 'setup kandidaten_bp_column.ds',
+
     ];
     
 }
