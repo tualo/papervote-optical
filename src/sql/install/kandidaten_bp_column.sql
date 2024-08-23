@@ -66,7 +66,7 @@ from
     join
         kandidaten
          on kandidaten.stimmzettelgruppen = stimmzettelgruppen.ridx
-         and kandidaten.id not in (select kandidaten_id from kandidaten_bp_column)
+         and kandidaten.id not in (select kandidaten_id from kandidaten_bp_column where kandidaten_id_checked=1)
 ),
 unions as (
     select 
