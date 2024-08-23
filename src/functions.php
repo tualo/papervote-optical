@@ -2,8 +2,13 @@
 
 require_once "Compiler.php";
 require_once "Routes/JSLoader.php";
-require_once "Routes/optical/Image.php";
+require_once "Routes/optical/SetupImage.php";
 require_once "Commands/Install.php";
+
+require_once "Routes/optical/Save.php";
+require_once "Routes/optical/Config.php";
+require_once "Routes/optical/Image.php";
+
 
 /*
 require_once "Commands/InstallMainSQLCommandline.php";

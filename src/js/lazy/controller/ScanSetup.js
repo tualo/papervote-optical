@@ -2,6 +2,29 @@ Ext.define('Tualo.PaperVoteOptical.lazy.controller.ScanSetup', {
     extend: 'Ext.app.ViewController',
     alias: 'controller.papervote_optical_scan_setup',
 
+    onDropGrid: function(){
+        this.numberRows();
+    },
+    
+    numberRows: function(){
+        var i,
+            me = this,
+            model = me.getViewModel(),
+            store = model.getStore('kandidaten_bp_column'),
+            records = store.getRange(),
+            min = Number.POSITIVE_INFINITY,
+            fld_name =  'position';
+        if (!Ext.isEmpty(fld_name)){
+            min = 1;
+            for(i=0;i<records.length;i++){
+                console.log('onDropGrid',records[i],fld_name,min+i);
+                records[i].set(fld_name,min+i);
+            }
+            store.sync();
+        }
+
+    },
+    
     onChooseBallotpaper: function(f,value){
         if (value){
             //this.getView().getViewModel().getStore('sz_rois').removeAll();
@@ -15,7 +38,14 @@ Ext.define('Tualo.PaperVoteOptical.lazy.controller.ScanSetup', {
                     value: value
                 }
             ]);
-            sz_rois.load();
+            sz_rois.load({
+                callback: function(records, operation, success) {
+                    console.log('sz_rois',records);
+                    // item_cap_y
+                    // item_height
+
+                }.bind(this)
+            });
 
 
             let stimmzettel_roi = this.getViewModel().getStore('stimmzettel_roi');
@@ -272,7 +302,7 @@ Ext.define('Tualo.PaperVoteOptical.lazy.controller.ScanSetup', {
         var sorters = kandidaten.getSorters(); // an Ext.util.SorterCollection
         sorters.clear();
         sorters.add( 'stimmzettelgruppen_id' );
-        sorters.add( 'anzeige_name' );
+        sorters.add( 'position' );
 
         kandidaten.filter([
             {

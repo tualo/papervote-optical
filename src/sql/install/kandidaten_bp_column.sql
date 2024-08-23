@@ -15,23 +15,31 @@ CREATE TABLE IF NOT EXISTS `kandidaten_bp_column` (
 
 alter table kandidaten_bp_column add column if not exists  kandidaten_id_checked tinyint default 0;
 
+alter table kandidaten_bp_column add column if not exists  position int default 0;
+
+
 create or replace view view_readtable_kandidaten_bp_column as
 
 with clicked as (
-select 
-    kandidaten_bp_column.kandidaten_id,
-    stimmzettel.id stimmzettel_id,
-    kandidaten_bp_column.stimmzettelgruppen_id,
-    kandidaten_bp_column.sz_rois_id,
-    kandidaten_bp_column.kandidaten_id_checked
-from 
-    kandidaten_bp_column
-    join stimmzettelgruppen
-        on stimmzettelgruppen.id = kandidaten_bp_column.stimmzettelgruppen_id
-    join stimmzettel
-        on stimmzettelgruppen.stimmzettel = stimmzettel.ridx
-where 
-    kandidaten_id_checked=1
+    select 
+        kandidaten_bp_column.kandidaten_id,
+        stimmzettel.id stimmzettel_id,
+        kandidaten_bp_column.stimmzettelgruppen_id,
+        kandidaten_bp_column.sz_rois_id,
+        kandidaten_bp_column.kandidaten_id_checked,
+        kandidaten_bp_column.position,
+        sz_rois.x,
+        sz_rois.y
+    from 
+        kandidaten_bp_column
+        join sz_rois
+            on sz_rois.id = kandidaten_bp_column.sz_rois_id
+        join stimmzettelgruppen
+            on stimmzettelgruppen.id = kandidaten_bp_column.stimmzettelgruppen_id
+        join stimmzettel
+            on stimmzettelgruppen.stimmzettel = stimmzettel.ridx
+    where 
+        kandidaten_id_checked=1
 ),
 not_clicked as (
     select 
@@ -40,7 +48,10 @@ not_clicked as (
     stimmzettel.id stimmzettel_id,
     stimmzettelgruppen.id stimmzettelgruppen_id,
     sz_rois.id sz_rois_id,
-    0 kandidaten_id_checked
+    0 kandidaten_id_checked,
+    0 position,
+    sz_rois.x,
+    sz_rois.y
 
 from 
 
@@ -56,29 +67,88 @@ from
         kandidaten
          on kandidaten.stimmzettelgruppen = stimmzettelgruppen.ridx
          and kandidaten.id not in (select kandidaten_id from kandidaten_bp_column)
+),
+unions as (
+    select 
+        clicked.kandidaten_id,
+        clicked.stimmzettel_id,
+        clicked.stimmzettelgruppen_id,
+        clicked.sz_rois_id,
+        clicked.kandidaten_id_checked,
+        
+        clicked.x,
+        clicked.y,
+        
+        
+        if( clicked.position=0,
+        rank() over (
+            partition by 
+                clicked.stimmzettelgruppen_id,
+                clicked.sz_rois_id
+            order by 
+                view_readtable_kandidaten.anzeige_name
+        ),clicked.position) position,
+
+
+        view_readtable_kandidaten.anzeige_name
+    from
+        view_readtable_kandidaten
+        join clicked on view_readtable_kandidaten.id = clicked.kandidaten_id
+    union 
+    select 
+        not_clicked.kandidaten_id,
+        not_clicked.stimmzettel_id,
+        not_clicked.stimmzettelgruppen_id,
+        not_clicked.sz_rois_id,
+        not_clicked.kandidaten_id_checked,
+        
+        not_clicked.x,
+        not_clicked.y,
+
+
+        if( not_clicked.position=0,
+        rank() over (
+            partition by 
+                not_clicked.stimmzettelgruppen_id,
+                not_clicked.sz_rois_id
+            order by 
+                view_readtable_kandidaten.anzeige_name
+        ),not_clicked.position) position,
+
+        view_readtable_kandidaten.anzeige_name
+    from
+        view_readtable_kandidaten
+        join not_clicked on view_readtable_kandidaten.id = not_clicked.kandidaten_id
 )
-select 
-    clicked.kandidaten_id,
-    clicked.stimmzettel_id,
-    clicked.stimmzettelgruppen_id,
-    clicked.sz_rois_id,
-    clicked.kandidaten_id_checked,
-    view_readtable_kandidaten.anzeige_name
+
+select
+    unions.kandidaten_id,
+    unions.stimmzettel_id,
+    unions.stimmzettelgruppen_id,
+    unions.sz_rois_id,
+    unions.kandidaten_id_checked,
+    unions.position,
+    unions.x,
+    unions.y,
+    unions.anzeige_name,
+    rank() over (
+        partition by 
+            unions.stimmzettel_id
+        order by 
+            unions.x,
+            unions.y,
+            unions.position
+    ) result_index
 from
-    view_readtable_kandidaten
-    join clicked on view_readtable_kandidaten.id = clicked.kandidaten_id
-union 
-select 
-    not_clicked.kandidaten_id,
-    not_clicked.stimmzettel_id,
-    not_clicked.stimmzettelgruppen_id,
-    not_clicked.sz_rois_id,
-    not_clicked.kandidaten_id_checked,
-    view_readtable_kandidaten.anzeige_name
-from
-    view_readtable_kandidaten
-    join not_clicked on view_readtable_kandidaten.id = not_clicked.kandidaten_id
+    unions
+
 ;
 
 
 update ds set use_insert_for_update=1 where table_name = 'kandidaten_bp_column';
+
+
+
+
+
+

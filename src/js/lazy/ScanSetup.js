@@ -137,7 +137,19 @@ Ext.define('Tualo.PaperVoteOptical.lazy.ScanSetup', {
                 store: '{kandidaten_bp_column}'
             },
 
+            viewConfig: {  
+                plugins: {
+                    ptype: 'gridviewdragdrop',
+                },
+                listeners: {
+                    drop: 'onDropGrid'
+                }
+            },
             columns: [{
+                header: 'P',
+                dataIndex: 'position',
+                flex:1
+            },{
                 header: 'Name',
                 dataIndex: 'anzeige_name',
                 flex:4

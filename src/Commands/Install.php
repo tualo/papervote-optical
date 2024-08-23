@@ -65,6 +65,9 @@ class Install extends CommandLineInstallSQL  implements ICommandline{
         'install/kandidaten_bp_column'=> 'setup kandidaten_bp_column',
         'install/kandidaten_bp_column.ds'=> 'setup kandidaten_bp_column.ds',
 
+        'install/kandidaten_bp_column_au_itemheight'=> 'setup kandidaten_bp_column_au_itemheight',
+        
+
     ];
     
 }
