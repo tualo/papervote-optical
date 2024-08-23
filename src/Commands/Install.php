@@ -53,8 +53,6 @@ class Install extends CommandLineInstallSQL  implements ICommandline{
         'install/view_sz_titles_by_page'=> 'setup view_sz_titles_by_page',
         'install/view_sz_titles_by_page.ds'=> 'setup view_sz_titles_by_page.ds',
 
-        'install/view_papervote_optical_result'=> 'setup view_papervote_optical_result',
-        'install/view_papervote_optical_result.ds'=> 'setup view_papervote_optical_result.ds',
 
         'install/view_sz_optical_config'=> 'setup view_sz_optical_config',
         'install/view_sz_optical_config.ds'=> 'setup view_sz_optical_config.ds',
@@ -66,7 +64,10 @@ class Install extends CommandLineInstallSQL  implements ICommandline{
         'install/kandidaten_bp_column.ds'=> 'setup kandidaten_bp_column.ds',
 
         'install/kandidaten_bp_column_au_itemheight'=> 'setup kandidaten_bp_column_au_itemheight',
-        
+
+        'install/view_papervote_optical_result'=> 'setup view_papervote_optical_result',
+        'install/view_papervote_optical_result.ds'=> 'setup view_papervote_optical_result.ds',
+
 
     ];
     
