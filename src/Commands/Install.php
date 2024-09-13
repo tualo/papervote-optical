@@ -69,6 +69,8 @@ class Install extends CommandLineInstallSQL  implements ICommandline{
         'install/view_papervote_optical_result.ds'=> 'setup view_papervote_optical_result.ds',
 
 
+        'install/detected_codes'=> 'setup detected_codes',
+
     ];
     
 }

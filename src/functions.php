@@ -8,6 +8,9 @@ require_once "Commands/Install.php";
 require_once "Routes/optical/Save.php";
 require_once "Routes/optical/Config.php";
 require_once "Routes/optical/Image.php";
+require_once "Routes/optical/DetectedCodes.php";
+
+
 
 
 /*
