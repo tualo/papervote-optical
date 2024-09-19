@@ -4,7 +4,7 @@ delimiter ;
 CREATE TABLE IF NOT EXISTS `kandidaten_bp_column` (
   `kandidaten_id` int(11) NOT NULL,
   `stimmzettelgruppen_id` int(11) NOT NULL,
-  `sz_rois_id` int(11) NOT NULL,
+  `sz_rois_id` bigint NOT NULL,
   PRIMARY KEY (`kandidaten_id`,`stimmzettelgruppen_id`),
   KEY `fk_kandidaten_bp_column_stimmzettelgruppen_id` (`stimmzettelgruppen_id`),
   KEY `fk_kandidaten_bp_column_sz_rois_id` (`sz_rois_id`),
