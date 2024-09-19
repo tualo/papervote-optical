@@ -1,6 +1,6 @@
 delimiter ;
 
-create table detected_codes (
+create table if not exists detected_codes (
     box_code varchar(20)    not null,
     stack_code varchar(20)  not null,
     pagination_code varchar(20) not null,
