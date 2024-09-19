@@ -28,7 +28,7 @@ select
         'circleSize',
         5,
         'circleMinDistance',
-        15,
+        11,
         'rois',
         json_arrayagg(
             json_object(
