@@ -20,6 +20,7 @@ class Image implements IRoute
         BasicRoute::add('/papervote/opticalimagesvg/(?P<id>[\/.\w\d\-\_\.]+)', function ($matches) {
             try{
             $db = App::get('session')->getDB();
+            
             $imagedata = $db->singleValue('select replace(data," ","+") data from papervote_optical_data where pagination_id={id}', ['id' => $matches['id']], 'data');
             if ($imagedata === false) {
                 http_response_code(404);
@@ -28,6 +29,8 @@ class Image implements IRoute
             }
             list($mime, $data) =  explode(',', $imagedata);
             $size = (getimagesizefromstring(base64_decode($data)));
+            
+            $imagedata = '../opticalimage/'.$matches['id'];
 
             $ballotpaper_id = $db->singleValue('select ballotpaper_id from papervote_optical where pagination_id={id}', ['id' => $matches['id']], 'ballotpaper_id');
 // alter table kandidaten add bp_column integer default 0;
