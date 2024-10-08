@@ -30,7 +30,7 @@ class Image implements IRoute
             list($mime, $data) =  explode(',', $imagedata);
             $size = (getimagesizefromstring(base64_decode($data)));
             
-            $imagedata = '../opticalimage/'.$matches['id'];
+            $imagedata = './papervote/opticalimage/'.$matches['id'];
 
             $ballotpaper_id = $db->singleValue('select ballotpaper_id from papervote_optical where pagination_id={id}', ['id' => $matches['id']], 'ballotpaper_id');
 // alter table kandidaten add bp_column integer default 0;
