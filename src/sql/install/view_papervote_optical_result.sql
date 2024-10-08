@@ -83,7 +83,40 @@ select
     `stimmzettelgruppen`.`sitze` as `stimmzettelgruppen_sitze`
 from
     `papervote_optical`
-    join `view_readtable_kandidaten_bp_column` on(
+    join 
+    (
+            select 
+                kandidaten_bp_column.kandidaten_id,
+                stimmzettel.id stimmzettel_id,
+                kandidaten_bp_column.stimmzettelgruppen_id,
+                kandidaten_bp_column.sz_rois_id,
+                kandidaten_bp_column.kandidaten_id_checked,
+                kandidaten_bp_column.position,
+                kandidaten.nachname anzeige_name,
+                sz_rois.x,
+                sz_rois.y,
+                rank() over (
+                    partition by 
+                        stimmzettel.id
+                    order by 
+                        sz_rois.x,
+                        sz_rois.y,
+                        kandidaten_bp_column.position
+                ) result_index
+            from 
+                kandidaten_bp_column
+                join sz_rois
+                    on sz_rois.id = kandidaten_bp_column.sz_rois_id
+                join stimmzettelgruppen
+                    on stimmzettelgruppen.id = kandidaten_bp_column.stimmzettelgruppen_id
+                join stimmzettel
+                    on stimmzettelgruppen.stimmzettel = stimmzettel.ridx
+                join kandidaten
+                    on kandidaten.id = kandidaten_bp_column.kandidaten_id
+            where 
+                kandidaten_id_checked=1
+
+    )    `view_readtable_kandidaten_bp_column` on(
         `papervote_optical`.`ballotpaper_id` = `view_readtable_kandidaten_bp_column`.`stimmzettel_id`
     )
     join `stimmzettel` on(
