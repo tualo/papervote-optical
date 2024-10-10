@@ -74,8 +74,10 @@ select
     json_length(`papervote_optical`.`marks`) anzahl_markierungen,
     `papervote_optical`.`marks`,
     length(REGEXP_REPLACE(marks, '[^X]', '')) anzahl_stimmzettel_kreuze,
+
     if ( `stimmzettel`.`sitze`<length(REGEXP_REPLACE(marks, '[^X]', '')) , 1, 0) as stimmzettel_ungueltig,
     if ( length(REGEXP_REPLACE(marks, '[^X]', ''))=0, 1, 0) as stimmzettel_enthaltung,
+    
     `stimmzettel`.`name` as `stimmzettel_name`,
     `stimmzettel`.`sitze` as `stimmzettel_sitze`,
     `stimmzettelgruppen`.`name` as `stimmzettelgruppen_name`,
@@ -131,8 +133,10 @@ or replace view `view_papervote_optical_result_ballotpaper_groups` as
 select 
     view_papervote_optical_result_ballotpaper.*,
     sum(if(marked='X',1,0)) stimmzettelgruppen_summe,
+
     if(stimmzettelgruppen_sitze<sum(if(marked='X',1,0)),1,0) stimmzettelgruppen_ungueltig,
     if( sum(if(marked='X',1,0)) = 0 ,1,0) stimmzettelgruppen_enthaltung
+
 
 from view_papervote_optical_result_ballotpaper
 group by 
@@ -143,7 +147,24 @@ group by
 create or replace view view_papervote_optical_result as
 
 select 
-    view_papervote_optical_result_ballotpaper.*,
+
+    view_papervote_optical_result_ballotpaper.marked,
+    view_papervote_optical_result_ballotpaper.pagination_id,
+    view_papervote_optical_result_ballotpaper.result_index,
+    view_papervote_optical_result_ballotpaper.kandidaten_id,
+    view_papervote_optical_result_ballotpaper.stimmzettel_id,
+    view_papervote_optical_result_ballotpaper.sz_rois_id,
+    view_papervote_optical_result_ballotpaper.anzeige_name,
+    view_papervote_optical_result_ballotpaper.anzahl_markierungen,
+    view_papervote_optical_result_ballotpaper.marks,
+    view_papervote_optical_result_ballotpaper.anzahl_stimmzettel_kreuze,
+    if(max(view_papervote_optical_result_ballotpaper_groups.stimmzettelgruppen_ungueltig)>0,1,view_papervote_optical_result_ballotpaper.stimmzettel_ungueltig) stimmzettel_ungueltig,
+    view_papervote_optical_result_ballotpaper.stimmzettel_enthaltung,
+    view_papervote_optical_result_ballotpaper.stimmzettel_name,
+    view_papervote_optical_result_ballotpaper.stimmzettel_sitze,
+    view_papervote_optical_result_ballotpaper.stimmzettelgruppen_name,
+    view_papervote_optical_result_ballotpaper.stimmzettelgruppen_id,
+    view_papervote_optical_result_ballotpaper.stimmzettelgruppen_sitze,
     
     max(view_papervote_optical_result_ballotpaper_groups.stimmzettelgruppen_ungueltig) as stimmzettelgruppen_ungueltig,
     max(view_papervote_optical_result_ballotpaper_groups.stimmzettelgruppen_enthaltung) as stimmzettelgruppen_enthaltung
