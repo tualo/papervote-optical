@@ -58,7 +58,12 @@ class Save implements IRoute
                 if (!isset($_POST['image'])) {
                     throw new Exception('image is missing');
                 }
-                
+                /*
+                list($mime, $data) =  explode(',', $_POST['image']);
+                $etag = md5($data);
+                $size = (getimagesizefromstring(base64_decode($data)));
+                */
+
                 $sql = 'insert into papervote_optical (pagination_id, box_id, stack_id, ballotpaper_id, marks) 
                 values ({barcode}, {boxbarcode}, {stackbarcode}, {id}, {marks})
                 on duplicate key update marks={marks}, box_id={boxbarcode}, stack_id={stackbarcode}, ballotpaper_id={id}
