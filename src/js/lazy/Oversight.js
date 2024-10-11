@@ -124,18 +124,21 @@ Ext.define('Tualo.PaperVoteOptical.lazy.Oversight', {
                 {
                     iconCls: null,
                     glyph: 76,
-                    text: 'Änderungen verwerfen'
+                    text: 'Änderungen verwerfen',
+                    handler: 'onRejected'
                 },
                 '->',
                 {
                     iconCls: null,
                     glyph: 76,
-                    text: 'Bestätigen'
+                    text: 'Bestätigen',
+                    handler: 'onConfirmed'
                 },
                 {
                     iconCls: null,
                     glyph: 76,
-                    text: 'Vorverarbeitung'
+                    text: 'Vorverarbeitung',
+                    handler: 'onPreProcessed'
                 }
             ]
         }

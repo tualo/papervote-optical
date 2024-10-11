@@ -27,6 +27,59 @@ Ext.define('Tualo.PaperVoteOptical.lazy.controller.Oversight', {
         }
         
     },
+
+
+    onPreProcessed: function (id) {
+        console.log('svg click',id);
+        var me = this;
+            sels = me.getView().down('#docs').getSelection();
+        if (sels.length>0){
+            Tualo.Fetch.post('papervote/opticaledit/pre_processed',{
+                id: sels[0].get('pagination_id')
+            }).then(function(data){
+                me.onSelect.bind(me)( null, me.getView().down('#docs').getSelection()[0], null, null )
+                console.log('data',data);
+                me.getView().setDisabled(false);
+            });
+            // console.log('marks',sels[0].data);
+        }
+        
+    },
+
+    onConfirmed: function (id) {
+        console.log('svg click',id);
+        var me = this;
+            sels = me.getView().down('#docs').getSelection();
+        if (sels.length>0){
+            Tualo.Fetch.post('papervote/opticaledit/confirmed',{
+                id: sels[0].get('pagination_id')
+            }).then(function(data){
+                me.onSelect.bind(me)( null, me.getView().down('#docs').getSelection()[0], null, null )
+                console.log('data',data);
+                me.getView().setDisabled(false);
+            });
+            // console.log('marks',sels[0].data);
+        }
+        
+    },
+
+    onRejected: function (id) {
+        console.log('svg click',id);
+        var me = this;
+            sels = me.getView().down('#docs').getSelection();
+        if (sels.length>0){
+            Tualo.Fetch.post('papervote/opticaledit/reject',{
+                id: sels[0].get('pagination_id')
+            }).then(function(data){
+                me.onSelect.bind(me)( null, me.getView().down('#docs').getSelection()[0], null, null )
+                console.log('data',data);
+                me.getView().setDisabled(false);
+            });
+            // console.log('marks',sels[0].data);
+        }
+        
+    },
+
     
     onBoxReady: function () {
         var me = this;
