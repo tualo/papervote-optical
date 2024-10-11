@@ -33,16 +33,18 @@ class Image implements IRoute
             $imagedata = './papervote/opticalimage/'.$matches['id'];
 
             $ballotpaper_id = $db->singleValue('select ballotpaper_id from papervote_optical where pagination_id={id}', ['id' => $matches['id']], 'ballotpaper_id');
-// alter table kandidaten add bp_column integer default 0;
-// alter table sz_rois add item_height integer default 20;
-// alter table sz_rois add item_cap_y decimal(15,5) default 0.5;
 
-            $result = $db->direct('select view_papervote_optical_result_ballotpaper.*,
-rank() over (
-    partition by pagination_id,
-    sz_rois_id
-    order by result_index
-) roi_pos from view_papervote_optical_result_ballotpaper where pagination_id={id}', ['id' => $matches['id']]);
+            $result = $db->direct('
+            select 
+                view_papervote_optical_result_ballotpaper.*,
+                rank() over (
+                    partition by pagination_id,
+                    sz_rois_id
+                    order by result_index
+                ) roi_pos 
+            from 
+                view_papervote_optical_result_ballotpaper 
+            where pagination_id={id}', ['id' => $matches['id']]);
 
             $sql ='select 
                 view_readtable_kandidaten_bp_column.result_index,
@@ -135,8 +137,12 @@ rank() over (
 
                     $color = '#FF0000';
                     if ($result_row['marked'] == 'X') $color = '#00FF00';
+                    if ($result_row['edited_marked'] != ''){
+                        if ($result_row['edited_marked'] == 'X') $color = '#FFFF00';
+                        if ($result_row['edited_marked'] == '0') $color = '#FFFFFF';
+                    }
+
                     $offset = ($result_row['roi_pos'] -1 )*$row['roi_item_height'] + ($result_row['roi_pos'] -1 )* $cap ;
-//                    $fields[] = '<g class="hover_group"  opacity="0.6">
                     $fields[] = '<g class="hover_group"   >
                     <a href="#papervote-optical/oversightclick/svg/'.($result_row['result_index'] -1 ).'" data-attr="'.$result_row['anzeige_name'].'" title="Hallo">
 
@@ -151,9 +157,6 @@ rank() over (
                     $index++;
                 }
             }
-
-            //  <text x="'.$roi_x.'" y="'.$roi_y + $offset*$scale_y+ 30 .'" font-size="20">'.$result_row['anzeige_name'].' '. $result_row['result_index'].'</text>
-            //  
                         
             
 

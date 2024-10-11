@@ -31,6 +31,14 @@ select
             ']'
         )
     ) AS `marked`,
+    json_value(
+        `papervote_optical`.`edited_marks`,
+        concat(
+            '$[',
+            view_readtable_kandidaten_bp_column.result_index - 1,
+            ']'
+        )
+    ) AS `edited_marked`,
     `papervote_optical`.`pagination_id`,
     `view_readtable_kandidaten_bp_column`.`result_index`,
     `view_readtable_kandidaten_bp_column`.`kandidaten_id`,
