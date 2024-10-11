@@ -41,6 +41,8 @@ select
         )
     ) AS `edited_marked`,
     `papervote_optical`.`pagination_id`,
+    `papervote_optical`.`box_id`,
+    `papervote_optical`.`stack_id`,
     `view_readtable_kandidaten_bp_column`.`result_index`,
     `view_readtable_kandidaten_bp_column`.`kandidaten_id`,
     `view_readtable_kandidaten_bp_column`.`stimmzettel_id`,
@@ -140,6 +142,8 @@ select
 
     view_papervote_optical_result_ballotpaper.marked,
     view_papervote_optical_result_ballotpaper.pagination_id,
+    `view_papervote_optical_result_ballotpaper`.`box_id`,
+    `view_papervote_optical_result_ballotpaper`.`stack_id`,
     view_papervote_optical_result_ballotpaper.result_index,
     view_papervote_optical_result_ballotpaper.kandidaten_id,
     view_papervote_optical_result_ballotpaper.stimmzettel_id,

@@ -27,7 +27,7 @@ Ext.define('Tualo.PaperVoteOptical.lazy.Oversight', {
     items: [
 
         {
-            xtype: 'grid',
+            xtype: 'dslist_view_papervote_optical_result',
             itemId: 'docs',
             region: 'west',
             flex: 1,
@@ -40,7 +40,7 @@ Ext.define('Tualo.PaperVoteOptical.lazy.Oversight', {
                 store: '{papervote_optical}'
             }, 
 
-
+/*
             columns: [{
                 header: 'ID',
                 dataIndex: 'pagination_id',
@@ -75,6 +75,7 @@ Ext.define('Tualo.PaperVoteOptical.lazy.Oversight', {
                 dataIndex: 'marks',
                 flex: 1
             }]
+                */
         },
         {
             xtype: 'grid',
