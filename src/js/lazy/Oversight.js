@@ -121,12 +121,12 @@ Ext.define('Tualo.PaperVoteOptical.lazy.Oversight', {
             dock: 'bottom',
             reference: 'buttonDock',
             items: [
-                
                 {
                     iconCls: null,
                     glyph: 76,
                     text: 'Änderungen verwerfen'
                 },
+                '->',
                 {
                     iconCls: null,
                     glyph: 76,
