@@ -35,6 +35,6 @@ Ext.define('Tualo.PaperVoteOptical.Format', {
 });
 
 Ext.merge(Ext.util.Format, {
-    paginationRenderer: Tualo.PaperVoteOptical.paginationRenderer,
-    papervoteCheckRenderer: Tualo.PaperVoteOptical.papervoteCheckRenderer,
+    paginationRenderer: Tualo.PaperVoteOptical.Format.paginationRenderer,
+    papervoteCheckRenderer: Tualo.PaperVoteOptical.Format.papervoteCheckRenderer,
 });
