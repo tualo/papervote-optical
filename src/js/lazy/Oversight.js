@@ -18,6 +18,12 @@ Ext.define('Tualo.PaperVoteOptical.lazy.Oversight', {
     bind: {
         title: '{ftitle}'
     },
+    defaults: {
+        collapsible: true,
+        split: true,
+        bodyPadding: 10
+    },
+
     items: [
 
         {
@@ -32,7 +38,7 @@ Ext.define('Tualo.PaperVoteOptical.lazy.Oversight', {
 
             bind: {
                 store: '{papervote_optical}'
-            },
+            }, 
 
 
             columns: [{
@@ -103,7 +109,6 @@ Ext.define('Tualo.PaperVoteOptical.lazy.Oversight', {
         },
         {
             xtype: 'component',
-            split: true,
             itemId: 'image',
             scrollable: 'y',
 
