@@ -109,11 +109,11 @@ Ext.define('Tualo.PaperVoteOptical.PaginationBPColumn', {
     extend: 'Ext.grid.column.Column',
     alias: 'widget.papervote_paginationbpcolumn',
     align: 'left',
-    renderer: Tualo.PaperVoteOptical.Format.paginationRenderer,
+    renderer: Tualo.PaperVoteOptical.Format.paginationBPRenderer,
 });
 Ext.define('Tualo.PaperVoteOptical.PaginationBPGColumn', {
     extend: 'Ext.grid.column.Column',
     alias: 'widget.papervote_paginationbpgcolumn',
     align: 'left',
-    renderer: Tualo.PaperVoteOptical.Format.paginationRenderer,
+    renderer: Tualo.PaperVoteOptical.Format.paginationBPGRenderer,
 });
