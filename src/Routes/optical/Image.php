@@ -138,7 +138,7 @@ rank() over (
                     $offset = ($result_row['roi_pos'] -1 )*$row['roi_item_height'] + ($result_row['roi_pos'] -1 )* $cap ;
 //                    $fields[] = '<g class="hover_group"  opacity="0.6">
                     $fields[] = '<g class="hover_group"   >
-                    <a href="#papervote/opticalscanclick/svg/'.($result_row['result_index'] -1 ).'" data-attr="'.$result_row['anzeige_name'].'" title="Hallo">
+                    <a href="#papervote-optical/oversightclick/svg/'.($result_row['result_index'] -1 ).'" data-attr="'.$result_row['anzeige_name'].'" title="Hallo">
 
                         <rect x="'.$roi_x.'" y="'.$roi_y + $offset*$scale_y .'" opacity="0.5" fill="transparent" width="'.($row['roi_width']*$scale_x).'" height="'.($row['roi_item_height']*$scale_y - $cap*$scale_y).'"></rect>
                         <circle 
