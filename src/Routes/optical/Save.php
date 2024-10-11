@@ -23,7 +23,7 @@ class Save implements IRoute
             App::result('success', false);
             $db->autoCommit(false);
             try {
-                $db->direct('update papervote_optical set edited_marks = {marks}  where pagination_id={id}', $_POST);
+                $db->direct('update papervote_optical set is_final = 0, edited_marks = {marks}  where pagination_id={id} ', $_POST);
                 App::result('success', true);
                 $db->commit();
             } catch (Exception $e) {

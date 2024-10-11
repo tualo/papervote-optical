@@ -51,7 +51,7 @@ Ext.define('Tualo.PaperVoteOptical.lazy.controller.Oversight', {
         var me = this;
             sels = me.getView().down('#docs').getSelection();
         if (sels.length>0){
-            Tualo.Fetch.post('papervote/opticaledit/confirmed',{
+            Tualo.Fetch.post('papervote/opticaledit/confirm',{
                 id: sels[0].get('pagination_id')
             }).then(function(data){
                 me.onSelect.bind(me)( null, me.getView().down('#docs').getSelection()[0], null, null )
