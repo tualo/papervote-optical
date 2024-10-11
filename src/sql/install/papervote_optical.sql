@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS `papervote_optical` (
   `edited_marks` JSON DEFAULT '[]',
 
   `is_final` tinyint default 0,
+  `pre_processed` tinyint default 0,
   
   `login` varchar(255) NOT NULL ,
   `created` timestamp NOT NULL DEFAULT current_timestamp(),
@@ -20,6 +21,7 @@ alter table  papervote_optical modify  `marks` JSON NOT NULL;
 alter table  papervote_optical add if not exists  `login` varchar(255) DEFAULT 'NA';
 alter table  papervote_optical add if not exists `edited_marks` JSON NOT NULL DEFAUlT '[]' ;
 alter table  papervote_optical add if not exists `is_final` tinyint default 0;
+alter table  papervote_optical add if not exists `pre_processed` tinyint default 0;
   
 
 DELIMITER //

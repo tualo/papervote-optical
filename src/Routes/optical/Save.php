@@ -38,9 +38,32 @@ class Save implements IRoute
             App::result('success', false);
             $db->autoCommit(false);
             try {
-                $db->direct('update papervote_optical set  marks = edited_marks  where pagination_id={id}', $_POST);
+                
+                $db->direct('update papervote_optical set marks = edited_marks  where pagination_id={id} and  marks <> edited_marks', $_POST);
+                $db->direct('update papervote_optical set is_final = 1  where pagination_id={id}', $_POST);
+
                 App::result('success', true);
                 $db->commit();
+
+            } catch (Exception $e) {
+                $db->rollback();
+                App::result('msg', $e->getMessage());
+            }
+        }, ['post'], true);
+
+
+        BasicRoute::add('/papervote/opticaledit/pre_processed', function ($matches) {
+            App::contenttype('application/json');
+            $db = App::get('session')->getDB();
+            App::result('success', false);
+            $db->autoCommit(false);
+            try {
+                
+                $db->direct('update papervote_optical set  marks = edited_marks, pre_processed = 1  where pagination_id={id} and marks <> edited_marks and is_final = 0 ', $_POST);
+
+                App::result('success', true);
+                $db->commit();
+
             } catch (Exception $e) {
                 $db->rollback();
                 App::result('msg', $e->getMessage());
@@ -53,7 +76,7 @@ class Save implements IRoute
             App::result('success', false);
             $db->autoCommit(false);
             try {
-                $db->direct('update papervote_optical set  edited_marks = "[]"  where pagination_id={id}', $_POST);
+                $db->direct('update papervote_optical set edited_marks = "[]"  where pagination_id={id}', $_POST);
                 App::result('success', true);
                 $db->commit();
             } catch (Exception $e) {

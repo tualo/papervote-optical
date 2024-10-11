@@ -135,12 +135,15 @@ class Image implements IRoute
                 foreach($result as $result_row){
                     if( $result_row['sz_rois_id']!=$row['roi_id']) continue;
 
+                    $stroke_width=5;
                     $color = '#FF0000';
                     if ($result_row['marked'] == 'X') $color = '#00FF00';
                     if ($result_row['edited_marked'] != ''){
-                        if ($result_row['edited_marked'] == 'X') $color = '#FFFF00';
-                        if ($result_row['edited_marked'] == '0') $color = '#FFFFFF';
-                    }
+                    if ($result_row['edited_marked'] != $result_row['marked']) {
+                            $stroke_width=10;
+                            if ($result_row['edited_marked'] == 'X') $color = '#CCFF00';
+                            if ($result_row['edited_marked'] == 'O') $color = '#FFFFFF';
+                        }                    }
 
                     $offset = ($result_row['roi_pos'] -1 )*$row['roi_item_height'] + ($result_row['roi_pos'] -1 )* $cap ;
                     $fields[] = '<g class="hover_group"   >
@@ -148,8 +151,8 @@ class Image implements IRoute
 
                         <rect x="'.$roi_x.'" y="'.$roi_y + $offset*$scale_y .'" opacity="0.5" fill="transparent" width="'.($row['roi_width']*$scale_x).'" height="'.($row['roi_item_height']*$scale_y - $cap*$scale_y).'"></rect>
                         <circle 
-                            cx="'.$roi_x + ($row['roi_width']*$scale_x) / 2 .'" cy="'.$roi_y + $offset*$scale_y + ($row['roi_item_height']*$scale_y - $cap*$scale_y) / 2 .'" r="'. (($row['roi_item_height']-$cap*2)*$scale_x) / 2 .'" 
-                        stroke-width="5" stroke="'.$color.'"
+                            cx="'.$roi_x + ($row['roi_width']*$scale_x) / 2 .'" cy="'.$roi_y + $offset*$scale_y + ($row['roi_item_height']*$scale_y - $cap*$scale_y) / 2 .'" r="'. (($row['roi_item_height']-$cap*2)*$scale_x) / 2 /2 .'" 
+                        stroke-width="'.$stroke_width.'" stroke="'.$color.'"
                         fill="none"
                         ></circle>
                     </a>

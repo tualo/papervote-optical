@@ -3,6 +3,7 @@ DELIMITER;
 /*
 
 - Als endgültig markiert
+- vorverarbeitet
 - Pending
 
 - Stimmzettel nicht erkannt
@@ -67,6 +68,8 @@ select
         0
     ) is_pending,
     
+    papervote_optical.pre_processed,
+
     papervote_optical.login,
     papervote_optical.is_final
 
@@ -156,6 +159,8 @@ select
     max(view_papervote_optical_result_ballotpaper_groups.stimmzettelgruppen_ungueltig) as stimmzettelgruppen_ungueltig,
     max(view_papervote_optical_result_ballotpaper_groups.stimmzettelgruppen_enthaltung) as stimmzettelgruppen_enthaltung,
     view_papervote_optical_result_ballotpaper.is_final,
+    
+    view_papervote_optical_result_ballotpaper.pre_processed,
     view_papervote_optical_result_ballotpaper.is_pending,
     view_papervote_optical_result_ballotpaper.login,
     view_papervote_optical_result_ballotpaper.edited_marks
