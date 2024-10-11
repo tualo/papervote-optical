@@ -1,57 +1,23 @@
 DELIMITER;
 
 /*
-create
-or replace view `view_papervote_optical_result` as
-select
-    `papervote_optical`.`pagination_id` AS `pagination_id`,
-    `stimmzettel`.`id` AS `stimmzettel_id`,
-    `stimmzettel`.`name` AS `stimmzettel_name`,
-    `kandidaten`.`anzeige_name` AS `anzeige_name`,
-    `kandidaten`.`bp_column` AS `bp_column`,
-    rank() over (
-        partition by `papervote_optical`.`pagination_id`,
-        `stimmzettel`.`id`,
-        `kandidaten`.`bp_column`
-        order by
-            `kandidaten`.`barcode`
-    ) AS `bp_pos`,
-    rank() over (
-        partition by `papervote_optical`.`pagination_id`,
-        `stimmzettel`.`id`
-        order by
-            `kandidaten`.`barcode`
-    ) AS `pos`,
-    json_value(
-        `papervote_optical`.`marks`,
-        concat(
-            '$[',
-            rank() over (
-                partition by `papervote_optical`.`pagination_id`,
-                `stimmzettel`.`id`
-                order by
-                    `kandidaten`.`barcode`
-            ) - 1,
-            ']'
-        )
-    ) AS `marked`
-from
-    (
-        (
-            (
-                `view_readtable_kandidaten` `kandidaten`
-                join `stimmzettelgruppen` on(
-                    `kandidaten`.`stimmzettelgruppen` = `stimmzettelgruppen`.`ridx`
-                )
-            )
-            join `stimmzettel` on(
-                `stimmzettelgruppen`.`stimmzettel` = `stimmzettel`.`ridx`
-            )
-        )
-        join `papervote_optical` on(
-            `papervote_optical`.`ballotpaper_id` = `stimmzettel`.`id`
-        )
-    );
+
+- Als endgültig markiert
+- Pending
+
+- Stimmzettel nicht erkannt
+- Stimmzettel gemeldet
+
+- Stimmzettel ungültig
+- Stimmzettel enthaltung
+
+- Stimmzettelgruppen ungültig
+- Stimmzettelgruppen enthaltung
+
+- Vom Wahlausschuss bearbeitet
+
+
+
 */
 
 create
@@ -82,7 +48,20 @@ select
     `stimmzettel`.`sitze` as `stimmzettel_sitze`,
     `stimmzettelgruppen`.`name` as `stimmzettelgruppen_name`,
     `stimmzettelgruppen`.`id` as `stimmzettelgruppen_id`,
-    `stimmzettelgruppen`.`sitze` as `stimmzettelgruppen_sitze`
+    `stimmzettelgruppen`.`sitze` as `stimmzettelgruppen_sitze`,
+
+    papervote_optical.edited_marks,
+
+    if (
+        papervote_optical.edited_marks<>'[]'
+        and papervote_optical.edited_marks<> papervote_optical.marks,
+        1,
+        0
+    ) is_pending,
+    
+    papervote_optical.login,
+    papervote_optical.is_final
+
 from
     `papervote_optical`
     join 
@@ -167,7 +146,11 @@ select
     view_papervote_optical_result_ballotpaper.stimmzettelgruppen_sitze,
     
     max(view_papervote_optical_result_ballotpaper_groups.stimmzettelgruppen_ungueltig) as stimmzettelgruppen_ungueltig,
-    max(view_papervote_optical_result_ballotpaper_groups.stimmzettelgruppen_enthaltung) as stimmzettelgruppen_enthaltung
+    max(view_papervote_optical_result_ballotpaper_groups.stimmzettelgruppen_enthaltung) as stimmzettelgruppen_enthaltung,
+    view_papervote_optical_result_ballotpaper.is_final,
+    view_papervote_optical_result_ballotpaper.is_pending,
+    view_papervote_optical_result_ballotpaper.login,
+    view_papervote_optical_result_ballotpaper.edited_marks
 
     from 
         view_papervote_optical_result_ballotpaper_groups

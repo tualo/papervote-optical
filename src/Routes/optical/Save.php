@@ -23,7 +23,7 @@ class Save implements IRoute
             App::result('success', false);
             $db->autoCommit(false);
             try {
-                $db->direct('update papervote_optical set marks = {marks}  where pagination_id={id}', $_POST);
+                $db->direct('update papervote_optical set edited_marks = {marks}  where pagination_id={id}', $_POST);
                 App::result('success', true);
                 $db->commit();
             } catch (Exception $e) {
@@ -31,6 +31,37 @@ class Save implements IRoute
                 App::result('msg', $e->getMessage());
             }
         }, ['post'], true);
+
+        BasicRoute::add('/papervote/opticaledit/confirm', function ($matches) {
+            App::contenttype('application/json');
+            $db = App::get('session')->getDB();
+            App::result('success', false);
+            $db->autoCommit(false);
+            try {
+                $db->direct('update papervote_optical set  marks = edited_marks  where pagination_id={id}', $_POST);
+                App::result('success', true);
+                $db->commit();
+            } catch (Exception $e) {
+                $db->rollback();
+                App::result('msg', $e->getMessage());
+            }
+        }, ['post'], true);
+
+        BasicRoute::add('/papervote/opticaledit/reject', function ($matches) {
+            App::contenttype('application/json');
+            $db = App::get('session')->getDB();
+            App::result('success', false);
+            $db->autoCommit(false);
+            try {
+                $db->direct('update papervote_optical set  edited_marks = "[]"  where pagination_id={id}', $_POST);
+                App::result('success', true);
+                $db->commit();
+            } catch (Exception $e) {
+                $db->rollback();
+                App::result('msg', $e->getMessage());
+            }
+        }, ['post'], true);
+
         BasicRoute::add('/papervote/opticaldata', function ($matches) {
 
             App::contenttype('application/json');
