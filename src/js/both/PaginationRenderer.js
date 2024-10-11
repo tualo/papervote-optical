@@ -27,6 +27,62 @@ Ext.define('Tualo.PaperVoteOptical.Format', {
 
         return value;
     },
+
+    paginationBPRenderer:  function (value, metaData, record) {
+        try{
+            /*
+            if ((record.get('stimmzettelgruppen_enthaltung') == 1) || (record.get('stimmzettelgruppen_enthaltung') === true)) {
+                metaData.tdStyle = 'background-color: rgba(255,255,0,0.5);;';
+            }
+
+            if ((record.get('stimmzettelgruppen_ungueltig') == 1) || (record.get('stimmzettelgruppen_ungueltig') === true)) {
+                metaData.tdStyle = 'background-color: rgba(255,50,0,0.5);';
+            }
+            */
+            if ((record.get('stimmzettel_enthaltung') == 1) || (record.get('stimmzettel_enthaltung') === true)) {
+                metaData.tdStyle = 'background-color: rgba(255,255,0,0.5);;';
+            }
+
+
+            if ((record.get('stimmzettel_ungueltig') == 1) || (record.get('stimmzettel_ungueltig') === true)) {
+                metaData.tdStyle = 'background-color: rgba(255,0,0,0.5);';
+            }
+
+        }catch(e){
+            console.error(e);
+        }
+
+
+        return value;
+    },
+
+    paginationBPGRenderer:  function (value, metaData, record) {
+        try{
+             
+            if ((record.get('stimmzettelgruppen_enthaltung') == 1) || (record.get('stimmzettelgruppen_enthaltung') === true)) {
+                metaData.tdStyle = 'background-color: rgba(255,255,0,0.5);;';
+            }
+
+            if ((record.get('stimmzettelgruppen_ungueltig') == 1) || (record.get('stimmzettelgruppen_ungueltig') === true)) {
+                metaData.tdStyle = 'background-color: rgba(255,50,0,0.5);';
+            }
+           /*
+            if ((record.get('stimmzettel_enthaltung') == 1) || (record.get('stimmzettel_enthaltung') === true)) {
+                metaData.tdStyle = 'background-color: rgba(255,255,0,0.5);;';
+            }
+
+
+            if ((record.get('stimmzettel_ungueltig') == 1) || (record.get('stimmzettel_ungueltig') === true)) {
+                metaData.tdStyle = 'background-color: rgba(255,0,0,0.5);';
+            } */
+
+        }catch(e){
+            console.error(e);
+        }
+
+
+        return value;
+    },
     papervoteCheckRenderer: function (value, metaData, record) {
         if (value==1 || value==true ){
             return '<i class="fa-solid fa-square-check"></i>';
@@ -45,6 +101,19 @@ Ext.merge(Ext.util.Format, {
 Ext.define('Tualo.PaperVoteOptical.PaginationColumn', {
     extend: 'Ext.grid.column.Column',
     alias: 'widget.papervote_paginationcolumn',
+    align: 'left',
+    renderer: Tualo.PaperVoteOptical.Format.paginationRenderer,
+});
+
+Ext.define('Tualo.PaperVoteOptical.PaginationBPColumn', {
+    extend: 'Ext.grid.column.Column',
+    alias: 'widget.papervote_paginationbpcolumn',
+    align: 'left',
+    renderer: Tualo.PaperVoteOptical.Format.paginationRenderer,
+});
+Ext.define('Tualo.PaperVoteOptical.PaginationBPGColumn', {
+    extend: 'Ext.grid.column.Column',
+    alias: 'widget.papervote_paginationbpgcolumn',
     align: 'left',
     renderer: Tualo.PaperVoteOptical.Format.paginationRenderer,
 });
