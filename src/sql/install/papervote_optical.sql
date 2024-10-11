@@ -23,15 +23,20 @@ alter table papervote_optical
 add if not exists `is_final` tinyint default 0;
 alter table papervote_optical
 add if not exists `pre_processed` tinyint default 0;
+
 DELIMITER //
+
 CREATE OR REPLACE TRIGGER `papervote_optical_bu_defaults` BEFORE
 UPDATE ON `papervote_optical` FOR EACH ROW BEGIN
 set new.login = getSessionUser();
 END //
+
 CREATE OR REPLACE TRIGGER `papervote_optical_bi_defaults` BEFORE
 INSERT ON `papervote_optical` FOR EACH ROW BEGIN
 set new.login = getSessionUser();
-END // DELIMITER;
+END // 
+
+DELIMITER ;
 create table if not exists `papervote_optical_data` (
   `pagination_id` bigint not null,
   `data` longtext not null,
@@ -53,6 +58,66 @@ values (
     "Tualo.PaperVoteOptical.PaginationColumn",
     "Tualo.PaperVoteOptical.PaginationColumn",
     "widget.papervote_paginationcolumn",
+    "Ext.grid.column.Column",
+    "widget.column",
+    "Ext.grid.column.Column"
+  ) on duplicate key
+update id =
+values(id),
+  xtype_long_classic =
+values(xtype_long_classic),
+  extendsxtype_classic =
+values(extendsxtype_classic),
+  name =
+values(name),
+  vendor =
+values(vendor);
+
+
+insert ignore into custom_types (
+    vendor,
+    name,
+    id,
+    xtype_long_classic,
+    extendsxtype_classic,
+    xtype_long_modern,
+    extendsxtype_modern
+  )
+values (
+    "Tualo",
+    "Tualo.PaperVoteOptical.PaginationBPColumn",
+    "Tualo.PaperVoteOptical.PaginationBPColumn",
+    "widget.papervote_paginationbpcolumn",
+    "Ext.grid.column.Column",
+    "widget.column",
+    "Ext.grid.column.Column"
+  ) on duplicate key
+update id =
+values(id),
+  xtype_long_classic =
+values(xtype_long_classic),
+  extendsxtype_classic =
+values(extendsxtype_classic),
+  name =
+values(name),
+  vendor =
+values(vendor);
+
+
+insert ignore into custom_types (
+    vendor,
+    name,
+    id,
+    xtype_long_classic,
+    extendsxtype_classic,
+    xtype_long_modern,
+    extendsxtype_modern
+  )
+values (
+    "Tualo",
+    "Tualo.PaperVoteOptical.PaginationBPGColumn",
+    "Tualo.PaperVoteOptical.PaginationBPGColumn",
+    "widget.papervote_paginationbpgcolumn",
     "Ext.grid.column.Column",
     "widget.column",
     "Ext.grid.column.Column"
