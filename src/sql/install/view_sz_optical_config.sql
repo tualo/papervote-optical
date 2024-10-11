@@ -8,7 +8,7 @@ select
         'titles',
         `view_sz_titles_by_page`.`t`,
         'titleRegion',
-        json_object(
+        JSON_COMPACT(json_object(
             'x',
             `x`.`titel_regions_x`,
             'y',
@@ -17,14 +17,14 @@ select
             `x`.`titel_regions_width`,
             'height',
             `x`.`titel_regions_height`
-        ),
+        )),
         'pagesize',
-        json_object(
+        JSON_COMPACT(json_object(
             'width',
             `x`.`pagesize_width`,
             'height',
             `x`.`pagesize_height`
-        ),
+        )),
         'circleSize',
         5,
         'circleMinDistance',
