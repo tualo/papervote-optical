@@ -40,3 +40,11 @@ Ext.merge(Ext.util.Format, {
     paginationRenderer: Tualo.PaperVoteOptical.Format.paginationRenderer,
     papervoteCheckRenderer: Tualo.PaperVoteOptical.Format.papervoteCheckRenderer,
 });
+
+
+Ext.define('Tualo.PaperVoteOptical.PaginationColumn', {
+    extend: 'Ext.grid.column.Column',
+    alias: 'widget.papervote_paginationcolumn',
+    align: 'left',
+    renderer: Tualo.PaperVoteOptical.Format.paginationRenderer,
+});
