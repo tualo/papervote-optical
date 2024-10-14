@@ -123,22 +123,16 @@ class Save implements IRoute
                     box_id, 
                     stack_id, 
                     ballotpaper_id, 
-                    marks,
-
-                    edited_marks,
-                    is_final,
-                    pre_processed
+                    marks
+ 
                 ) 
                 values (
                     {barcode},
                     {boxbarcode}, 
                     {stackbarcode},
                     {id}, 
-                    {marks},
-
-                    "[]",
-                    0,
-                    0
+                    {marks}
+ 
                 )
                 on duplicate key update 
                     marks={marks}, 
@@ -146,9 +140,9 @@ class Save implements IRoute
                     stack_id={stackbarcode},
                     ballotpaper_id={id}.
 
-                    edited_marks=values(edited_marks),
-                    is_final=values(is_final),
-                    pre_processed=values(pre_processed)
+                    edited_marks="[]",
+                    is_final=0,
+                    pre_processed=0
                 ';
                 $db->direct($sql, [
                     'barcode' => $_POST['barcode'],
