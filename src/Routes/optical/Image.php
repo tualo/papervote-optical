@@ -127,10 +127,12 @@ class Image implements IRoute
 
                 
                 // <text x="'.$roi_x.'" y="'.($roi_y + ($row['roi_height']*$scale_y) ).'" font-size="20">'.$row['roi_name'].' '.$row['roi_id'].'</text>
-                    
+                  
+                /*
                 $roisRegionSVG[] = '<g class="hover_group" opacity="0.1">
                     <rect x="'.$roi_x.'" y="'.$roi_y.'" opacity="0.2" fill="#0000FF" width="'.($row['roi_width']*$scale_x).'" height="'.($row['roi_height']*$scale_y).'"></rect>
                 </g>';
+                */
 
                 foreach($result as $result_row){
                     if( $result_row['sz_rois_id']!=$row['roi_id']) continue;
@@ -149,7 +151,7 @@ class Image implements IRoute
                     $fields[] = '<g class="hover_group"   >
                     <a href="#papervote-optical/oversightclick/svg/'.($result_row['result_index'] -1 ).'" data-attr="'.$result_row['anzeige_name'].'" title="Hallo">
 
-                        <rect x="'.$roi_x.'" y="'.$roi_y + $offset*$scale_y .'" opacity="0.5" fill="transparent" width="'.($row['roi_width']*$scale_x).'" height="'.($row['roi_item_height']*$scale_y - $cap*$scale_y).'"></rect>
+                        <rect x="'.$roi_x.'" y="'.$roi_y + $offset*$scale_y .'" opacity="0.5" stroke="#000" fill="transparent" width="'.($row['roi_width']*$scale_x).'" height="'.($row['roi_item_height']*$scale_y - $cap*$scale_y).'"></rect>
                         <circle 
                             cx="'.$roi_x + ($row['roi_width']*$scale_x) / 2 .'" cy="'.$roi_y + $offset*$scale_y + ($row['roi_item_height']*$scale_y - $cap*$scale_y) / 2 .'" r="'. (($row['roi_item_height']-$cap*2)*$scale_x) / 2 /2 .'" 
                         stroke-width="'.$stroke_width.'" stroke="'.$color.'"
