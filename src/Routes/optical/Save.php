@@ -138,7 +138,7 @@ class Save implements IRoute
                     marks={marks}, 
                     box_id={boxbarcode}, 
                     stack_id={stackbarcode},
-                    ballotpaper_id={id}.
+                    ballotpaper_id={id},
 
                     edited_marks="[]",
                     is_final=0,
