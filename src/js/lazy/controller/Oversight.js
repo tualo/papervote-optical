@@ -29,6 +29,10 @@ Ext.define('Tualo.PaperVoteOptical.lazy.controller.Oversight', {
     },
 
 
+    onRefresh: function(){
+        this.getViewModel().getStore('papervote_optical').load();
+    },
+
     onPreProcessed: function (id) {
         console.log('svg click',id);
         var me = this;
@@ -40,6 +44,7 @@ Ext.define('Tualo.PaperVoteOptical.lazy.controller.Oversight', {
                 me.onSelect.bind(me)( null, me.getView().down('#docs').getSelection()[0], null, null )
                 console.log('data',data);
                 me.getView().setDisabled(false);
+                me.getViewModel().getStore('papervote_optical').load();
             });
             // console.log('marks',sels[0].data);
         }
@@ -57,6 +62,7 @@ Ext.define('Tualo.PaperVoteOptical.lazy.controller.Oversight', {
                 me.onSelect.bind(me)( null, me.getView().down('#docs').getSelection()[0], null, null )
                 console.log('data',data);
                 me.getView().setDisabled(false);
+                me.getViewModel().getStore('papervote_optical').load();
             });
             // console.log('marks',sels[0].data);
         }
@@ -74,6 +80,7 @@ Ext.define('Tualo.PaperVoteOptical.lazy.controller.Oversight', {
                 me.onSelect.bind(me)( null, me.getView().down('#docs').getSelection()[0], null, null )
                 console.log('data',data);
                 me.getView().setDisabled(false);
+                me.getViewModel().getStore('papervote_optical').load();
             });
             // console.log('marks',sels[0].data);
         }

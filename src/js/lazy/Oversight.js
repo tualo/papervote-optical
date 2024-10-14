@@ -129,6 +129,15 @@ Ext.define('Tualo.PaperVoteOptical.lazy.Oversight', {
             items: [
                 {
                     xtype: 'button',
+                    iconCls: 'fa-solid fa-reload',
+                    text: 'Neu Laden',
+                    handler: 'onRefresh',
+                    style: {
+                        backgroundColor: 'lightgray'
+                      }
+                },
+                {
+                    xtype: 'button',
                     iconCls: 'fa-solid fa-rotate-left',
                     text: 'Änderungen verwerfen',
                     handler: 'onRejected',
