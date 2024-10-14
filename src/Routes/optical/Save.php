@@ -118,9 +118,37 @@ class Save implements IRoute
                 $size = (getimagesizefromstring(base64_decode($data)));
                 */
 
-                $sql = 'insert into papervote_optical (pagination_id, box_id, stack_id, ballotpaper_id, marks) 
-                values ({barcode}, {boxbarcode}, {stackbarcode}, {id}, {marks})
-                on duplicate key update marks={marks}, box_id={boxbarcode}, stack_id={stackbarcode}, ballotpaper_id={id}
+                $sql = 'insert into papervote_optical (
+                    pagination_id, 
+                    box_id, 
+                    stack_id, 
+                    ballotpaper_id, 
+                    marks,
+
+                    edited_marks,
+                    is_final,
+                    pre_processed
+                ) 
+                values (
+                    {barcode},
+                    {boxbarcode}, 
+                    {stackbarcode},
+                    {id}, 
+                    {marks},
+
+                    "[]",
+                    0,
+                    0
+                )
+                on duplicate key update 
+                    marks={marks}, 
+                    box_id={boxbarcode}, 
+                    stack_id={stackbarcode},
+                    ballotpaper_id={id}.
+
+                    edited_marks=values(edited_marks),
+                    is_final=values(is_final),
+                    pre_processed=values(pre_processed)
                 ';
                 $db->direct($sql, [
                     'barcode' => $_POST['barcode'],
