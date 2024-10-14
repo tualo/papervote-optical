@@ -128,23 +128,35 @@ Ext.define('Tualo.PaperVoteOptical.lazy.Oversight', {
             reference: 'buttonDock',
             items: [
                 {
-                    iconCls: null,
-                    glyph: 76,
+                    xtype: 'glyphtool',
+                    glyph: 'rotate-left',
                     text: 'Änderungen verwerfen',
-                    handler: 'onRejected'
+                    handler: 'onRejected',
+                    style: {
+                        borderRadius: '10px',
+                        backgroundColor: 'gray'
+                      }
                 },
                 '->',
                 {
-                    iconCls: null,
-                    glyph: 76,
+                    xtype: 'glyphtool',
+                    glyph: 'check-double',
                     text: 'Bestätigen',
-                    handler: 'onConfirmed'
+                    handler: 'onConfirmed',
+                    style: {
+                        borderRadius: '10px',
+                        backgroundColor: 'rgb(100,255,100)'
+                      }
                 },
                 {
-                    iconCls: null,
-                    glyph: 76,
+                    xtype: 'glyphtool',
+                    glyph: 'bolt',
                     text: 'Vorverarbeitung',
-                    handler: 'onPreProcessed'
+                    handler: 'onPreProcessed',
+                    style: {
+                        borderRadius: '10px',
+                        backgroundColor: 'rgb(255,255,100)'
+                      }
                 }
             ]
         }
