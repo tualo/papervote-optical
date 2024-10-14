@@ -137,7 +137,21 @@ group by
 
 
 create or replace view view_papervote_optical_result as
-
+select 
+    a.*,
+    if(
+        (
+        is_pending +
+        pre_processed +
+        stimmzettel_ungueltig +
+        stimmzettel_enthaltung +
+        is_informed
+    )>0 and is_final <> 1,
+        1,
+        0
+    )
+     for_review
+from (
 select 
 
     view_papervote_optical_result_ballotpaper.marked,
@@ -163,6 +177,7 @@ select
     max(view_papervote_optical_result_ballotpaper_groups.stimmzettelgruppen_ungueltig) as stimmzettelgruppen_ungueltig,
     max(view_papervote_optical_result_ballotpaper_groups.stimmzettelgruppen_enthaltung) as stimmzettelgruppen_enthaltung,
     view_papervote_optical_result_ballotpaper.is_final,
+    if (view_papervote_optical_result_ballotpaper.marks='[]',1,0) is_informed,
     
     view_papervote_optical_result_ballotpaper.pre_processed,
     view_papervote_optical_result_ballotpaper.is_pending,
@@ -173,4 +188,7 @@ select
         view_papervote_optical_result_ballotpaper_groups
         join view_papervote_optical_result_ballotpaper
             on view_papervote_optical_result_ballotpaper_groups.pagination_id = view_papervote_optical_result_ballotpaper.pagination_id
-group by view_papervote_optical_result_ballotpaper.pagination_id;
+group by view_papervote_optical_result_ballotpaper.pagination_id
+) a
+
+;
