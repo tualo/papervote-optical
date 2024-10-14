@@ -36,10 +36,18 @@ class Save implements IRoute
             App::contenttype('application/json');
             $db = App::get('session')->getDB();
             App::result('success', false);
+
+            
+
             $db->autoCommit(false);
             try {
+                if (
+                    $db->singleValue('select `group` v from view_session_groups where `group` in ("wahl_administration")',[],'v')===false
+                ){
+                    throw new Exception("Dies ist nicht erlaubt");
+                }
                 
-                $db->direct('update papervote_optical set marks = edited_marks  where pagination_id={id} and  marks <> edited_marks', $_POST);
+                $db->direct('update papervote_optical set marks = edited_marks  where pagination_id={id} and  marks <> edited_marks and edited_marks<>"[]"', $_POST);
                 $db->direct('update papervote_optical set is_final = 1  where pagination_id={id}', $_POST);
 
                 App::result('success', true);
@@ -58,6 +66,12 @@ class Save implements IRoute
             App::result('success', false);
             $db->autoCommit(false);
             try {
+
+                if (
+                    $db->singleValue('select `group` v from view_session_groups where `group` in ("administration")',[],'v')===false
+                ){
+                    throw new Exception("Dies ist nicht erlaubt");
+                }
                 
                 $db->direct('update papervote_optical set  marks = edited_marks, pre_processed = 1  where pagination_id={id} and marks <> edited_marks and is_final = 0 ', $_POST);
 

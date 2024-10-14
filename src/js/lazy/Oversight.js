@@ -129,7 +129,7 @@ Ext.define('Tualo.PaperVoteOptical.lazy.Oversight', {
             items: [
                 {
                     xtype: 'button',
-                    iconCls: 'fa-solid fa-reload',
+                    iconCls: 'fa-solid fa-arrows-rotate',
                     text: 'Neu Laden',
                     handler: 'onRefresh',
                     style: {
