@@ -69,7 +69,7 @@ class Save implements IRoute
                     'confirm'=>false,
                     'reject'=>false,
                     'pre_processed'=>false
-                ]
+                ];
 
                 if (
                     $db->singleValue('select `group` v from view_session_groups where `group` in ("administration")',[],'v')!==false
