@@ -42,7 +42,7 @@ class Save implements IRoute
             $db->autoCommit(false);
             try {
                 if (
-                    $db->singleValue('select count(*) v from ds_access  join view_session_groups on view_session_groups.group = ds_access.role and ds_access.write = 1 and  table_name = "papervote_optical"',[],'v')===0
+                    $db->singleValue('select count(*) v from ds_access  join view_session_allowed_groups on view_session_allowed_groups.group = ds_access.role and ds_access.write = 1 and  table_name = "papervote_optical"',[],'v')===0
                 ){
                     throw new Exception("Dies ist nicht erlaubt");
                 }
@@ -72,12 +72,12 @@ class Save implements IRoute
                 ];
 
                 if (
-                    $db->singleValue('select `group` v from view_session_groups where `group` in ("administration")',[],'v')!==false
+                    $db->singleValue('select `group` v from view_session_allowed_groups where `group` in ("administration")',[],'v')!==false
                 ){
                     $data['pre_processed']=true;
                 }
                 if (
-                    $db->singleValue('select count(*) v from ds_access  join view_session_groups on view_session_groups.group = ds_access.role and ds_access.write = 1 and  table_name = "papervote_optical"',[],'v')!=0
+                    $db->singleValue('select count(*) v from ds_access  join view_session_allowed_groups on view_session_allowed_groups.group = ds_access.role and ds_access.write = 1 and  table_name = "papervote_optical"',[],'v')!=0
                 ){
                     $data['confirm']=true;
                     $data['reject']=true;
@@ -102,12 +102,12 @@ class Save implements IRoute
             try {
 
                 if (
-                    $db->singleValue('select `group` v from view_session_groups where `group` in ("administration")',[],'v')===false
+                    $db->singleValue('select `group` v from view_session_allowed_groups where `group` in ("administration")',[],'v')===false
                 ){
                     throw new Exception("Dies ist nicht erlaubt");
                 }
                 if (
-                    $db->singleValue('select count(*) v from ds_access  join view_session_groups on view_session_groups.group = ds_access.role and ds_access.write = 1 and  table_name = "papervote_optical"',[],'v')===0
+                    $db->singleValue('select count(*) v from ds_access  join view_session_allowed_groups on view_session_allowed_groups.group = ds_access.role and ds_access.write = 1 and  table_name = "papervote_optical"',[],'v')===0
                 ){
                     throw new Exception("Dies ist nicht erlaubt");
                 }
@@ -129,7 +129,7 @@ class Save implements IRoute
             $db->autoCommit(false);
             try {
                 if (
-                    $db->singleValue('select count(*) v from ds_access  join view_session_groups on view_session_groups.group = ds_access.role and ds_access.write = 1 and  table_name = "papervote_optical"',[],'v')===0
+                    $db->singleValue('select count(*) v from ds_access  join view_session_allowed_groups on view_session_allowed_groups.group = ds_access.role and ds_access.write = 1 and  table_name = "papervote_optical"',[],'v')===0
                 ){
                     throw new Exception("Dies ist nicht erlaubt");
                 }
