@@ -118,9 +118,11 @@ Ext.define('Tualo.PaperVoteOptical.lazy.controller.Oversight', {
             buttonDock = view.getComponent('buttonDock')
             preProcessedButton = buttonDock.getComponent('preProcessedButton');
 
-            console.log('data');
-            preProcessedButton.setDisabled(true);
-        
+            if (data.success){
+                if (data.data.confirm===false) confirmButton.setDisabled(true);
+                if (data.data.reject===false) rejectButton.setDisabled(true);
+                if (data.data.pre_processed===false) preProcessedButton.setDisabled(true);
+            }
     },
     
     onBoxReady: function () {
