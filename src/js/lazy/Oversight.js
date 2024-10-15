@@ -125,7 +125,7 @@ Ext.define('Tualo.PaperVoteOptical.lazy.Oversight', {
         {
             xtype: 'toolbar',
             dock: 'bottom',
-            reference: 'buttonDock',
+            itemId: 'buttonDock',
             items: [
                 {
                     xtype: 'button',
@@ -141,6 +141,7 @@ Ext.define('Tualo.PaperVoteOptical.lazy.Oversight', {
                     iconCls: 'fa-solid fa-rotate-left',
                     text: 'Änderungen verwerfen',
                     handler: 'onRejected',
+                    itemId: 'rejectButton',
                     style: {
                         backgroundColor: 'lightgray'
                       }
@@ -151,6 +152,7 @@ Ext.define('Tualo.PaperVoteOptical.lazy.Oversight', {
                     iconCls: 'fa-solid fa-check-double',
                     text: 'Bestätigen',
                     handler: 'onConfirmed',
+                    itemId: 'confirmButton',
                     style: {
                         backgroundColor: 'rgb(100,255,100)'
                       }
@@ -160,6 +162,7 @@ Ext.define('Tualo.PaperVoteOptical.lazy.Oversight', {
                     iconCls: 'fa-solid fa-bolt',
                     text: 'Vorverarbeitung',
                     handler: 'onPreProcessed',
+                    itemId: 'preProcessedButton',
                     style: {
                         backgroundColor: 'rgb(255,255,100)'
                       }

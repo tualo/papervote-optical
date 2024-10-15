@@ -42,6 +42,14 @@ Ext.define('Tualo.PaperVoteOptical.lazy.controller.Oversight', {
                 id: sels[0].get('pagination_id')
             }).then(function(data){
                 me.onSelect.bind(me)( null, me.getView().down('#docs').getSelection()[0], null, null )
+                if (data.success==false){
+                    Ext.toast({
+                        html: data.msg,
+                        title: 'Fehler',
+                        align: 't',
+                        iconCls: 'fa fa-warning'
+                    });
+                }
                 console.log('data',data);
                 me.getView().setDisabled(false);
                 me.getViewModel().getStore('papervote_optical').load();
@@ -61,6 +69,14 @@ Ext.define('Tualo.PaperVoteOptical.lazy.controller.Oversight', {
             }).then(function(data){
                 me.onSelect.bind(me)( null, me.getView().down('#docs').getSelection()[0], null, null )
                 console.log('data',data);
+                if (data.success==false){
+                    Ext.toast({
+                        html: data.msg,
+                        title: 'Fehler',
+                        align: 't',
+                        iconCls: 'fa fa-warning'
+                    });
+                }
                 me.getView().setDisabled(false);
                 me.getViewModel().getStore('papervote_optical').load();
             });
@@ -79,6 +95,14 @@ Ext.define('Tualo.PaperVoteOptical.lazy.controller.Oversight', {
             }).then(function(data){
                 me.onSelect.bind(me)( null, me.getView().down('#docs').getSelection()[0], null, null )
                 console.log('data',data);
+                if (data.success==false){
+                    Ext.toast({
+                        html: data.msg,
+                        title: 'Fehler',
+                        align: 't',
+                        iconCls: 'fa fa-warning'
+                    });
+                }
                 me.getView().setDisabled(false);
                 me.getViewModel().getStore('papervote_optical').load();
             });
@@ -87,6 +111,17 @@ Ext.define('Tualo.PaperVoteOptical.lazy.controller.Oversight', {
         
     },
 
+    readPermissions: async function(){
+        let me = this;
+            data = await Tualo.Fetch.get('papervote/opticaledit/permissions'),
+            view = me.getView(),
+            buttonDock = view.getComponent('buttonDock')
+            preProcessedButton = buttonDock.getComponent('preProcessedButton');
+
+            console.log('data');
+            preProcessedButton.setDisabled(true);
+        
+    },
     
     onBoxReady: function () {
         var me = this;
@@ -95,6 +130,7 @@ Ext.define('Tualo.PaperVoteOptical.lazy.controller.Oversight', {
         var store = me.getViewModel().getStore('papervote_optical');
         store.load();
        
+        me.readPermissions();
     },
     onPapervoteOpticalLoad: function (store, records, successful, operation, eOpts) {
         console.log('store loaded',records);

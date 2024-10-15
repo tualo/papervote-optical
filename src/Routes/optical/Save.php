@@ -59,6 +59,40 @@ class Save implements IRoute
             }
         }, ['post'], true);
 
+        BasicRoute::add('/papervote/opticaledit/permissions', function ($matches) {
+            App::contenttype('application/json');
+            $db = App::get('session')->getDB();
+            App::result('success', false);
+            $db->autoCommit(false);
+            try {
+                $data = [
+                    'confirm'=>false,
+                    'reject'=>false,
+                    'pre_processed'=>false
+                ]
+
+                if (
+                    $db->singleValue('select `group` v from view_session_groups where `group` in ("administration")',[],'v')!==false
+                ){
+                    $data['pre_processed']=true;
+                }
+                if (
+                    $db->singleValue('select count(*) v from ds_access  join view_session_groups on view_session_groups.group = ds_access.role and ds_access.write = 1 and  table_name = "papervote_optical"',[],'v')!==0
+                ){
+                    $data['confirm']=true;
+                    $data['reject']=true;
+                }
+
+                App::result('success', true);
+                App::result('data', $data);
+                $db->commit();
+
+            } catch (Exception $e) {
+                $db->rollback();
+                App::result('msg', $e->getMessage());
+            }
+
+        }, ['get'], true);
 
         BasicRoute::add('/papervote/opticaledit/pre_processed', function ($matches) {
             App::contenttype('application/json');
@@ -68,11 +102,15 @@ class Save implements IRoute
             try {
 
                 if (
-                    $db->singleValue('select `group` v from view_session_groups where `group` in ("administrations")',[],'v')===false
+                    $db->singleValue('select `group` v from view_session_groups where `group` in ("administration")',[],'v')===false
                 ){
                     throw new Exception("Dies ist nicht erlaubt");
                 }
-                
+                if (
+                    $db->singleValue('select count(*) v from ds_access  join view_session_groups on view_session_groups.group = ds_access.role and ds_access.write = 1 and  table_name = "papervote_optical"',[],'v')===0
+                ){
+                    throw new Exception("Dies ist nicht erlaubt");
+                }
                 $db->direct('update papervote_optical set  marks = edited_marks, pre_processed = 1  where pagination_id={id} and marks <> edited_marks and is_final = 0 ', $_POST);
 
                 App::result('success', true);
@@ -90,6 +128,12 @@ class Save implements IRoute
             App::result('success', false);
             $db->autoCommit(false);
             try {
+                if (
+                    $db->singleValue('select count(*) v from ds_access  join view_session_groups on view_session_groups.group = ds_access.role and ds_access.write = 1 and  table_name = "papervote_optical"',[],'v')===0
+                ){
+                    throw new Exception("Dies ist nicht erlaubt");
+                }
+
                 $db->direct('update papervote_optical set edited_marks = "[]"  where pagination_id={id}', $_POST);
                 App::result('success', true);
                 $db->commit();
