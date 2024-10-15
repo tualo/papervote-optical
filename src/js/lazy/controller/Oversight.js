@@ -115,8 +115,10 @@ Ext.define('Tualo.PaperVoteOptical.lazy.controller.Oversight', {
         let me = this;
             data = await Tualo.Fetch.get('papervote/opticaledit/permissions'),
             view = me.getView(),
-            buttonDock = view.getComponent('buttonDock')
-            preProcessedButton = buttonDock.getComponent('preProcessedButton');
+            buttonDock = view.getComponent('buttonDock'),
+            preProcessedButton = buttonDock.getComponent('preProcessedButton'),
+            confirmButton = buttonDock.getComponent('confirmButton'),
+            rejectButton = buttonDock.getComponent('rejectButton');
 
             if (data.success){
                 if (data.data.confirm===false) confirmButton.setDisabled(true);

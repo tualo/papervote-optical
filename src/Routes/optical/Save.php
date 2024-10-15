@@ -77,7 +77,7 @@ class Save implements IRoute
                     $data['pre_processed']=true;
                 }
                 if (
-                    $db->singleValue('select count(*) v from ds_access  join view_session_groups on view_session_groups.group = ds_access.role and ds_access.write = 1 and  table_name = "papervote_optical"',[],'v')!==0
+                    $db->singleValue('select count(*) v from ds_access  join view_session_groups on view_session_groups.group = ds_access.role and ds_access.write = 1 and  table_name = "papervote_optical"',[],'v')!=0
                 ){
                     $data['confirm']=true;
                     $data['reject']=true;
