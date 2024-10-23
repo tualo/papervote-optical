@@ -68,6 +68,11 @@ config as (
             and kandidaten_id_checked=1
         join sz_rois
             on sz_rois.id = kandidaten_bp_column.sz_rois_id
+        join stimmzettel_roi
+            on 
+            sz_rois.id = stimmzettel_roi.sz_rois_id
+            and stimmzettel.id = stimmzettel_roi.stimmzettel_id
+
 )
 select
     json_value(
@@ -126,7 +131,7 @@ select
     papervote_optical.is_final
 
 from
-    `papervote_optical`
+    setup `papervote_optical`
     join 
     config on(
         `papervote_optical`.`ballotpaper_id` = `config`.`stimmzettel_id`
@@ -136,7 +141,10 @@ from
     )
     join `stimmzettelgruppen` on(
         `config`.`stimmzettelgruppen_id` = `stimmzettelgruppen`.`id`
-    ) //
+    )
+    group by papervote_optical.pagination_id, config.kandidaten_id
+
+     //
 
 
 
