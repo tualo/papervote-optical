@@ -1,11 +1,10 @@
-
-
+delimiter  //
 
 CREATE OR REPLACE FUNCTION `getRequestPagination`() RETURNS bigint
     DETERMINISTIC
 BEGIN
     return @request_pagination;
-END
+END //
 
 
 create
@@ -137,7 +136,7 @@ from
     )
     join `stimmzettelgruppen` on(
         `config`.`stimmzettelgruppen_id` = `stimmzettelgruppen`.`id`
-    );
+    ) //
 
 
 
