@@ -1,3 +1,4 @@
+delimiter //
 
 CREATE OR REPLACE PROCEDURE `proc_papervote_optical`( IN in_pagination_id bigint)
 BEGIN 
