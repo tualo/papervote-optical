@@ -167,7 +167,7 @@ class Image implements IRoute
 
 
 
-            //App::contenttype('image/svg+xml');
+            App::contenttype('image/svg+xml');
             $svg = file_get_contents(__DIR__.'/svg_template.svg');
             App::body(
                 DataRenderer::renderTemplate($svg, [
