@@ -77,6 +77,8 @@ class Install extends CommandLineInstallSQL  implements ICommandline{
         'stapel2.ds'=> 'setup stapel2.ds',
         'view_session_users.ds'=> 'setup view_session_users.ds',
 
+        'proc_papervote_optical'=>'fix proc_papervote_optical'
+
     ];
     
 }
