@@ -72,6 +72,11 @@ class Install extends CommandLineInstallSQL  implements ICommandline{
         'install/detected_codes'=> 'setup detected_codes',
         'install/detected_codes.ds'=> 'setup detected_codes.ds',
 
+
+        'kisten2.ds'=> 'setup kisten2.ds',
+        'stapel2.ds'=> 'setup stapel2.ds',
+        'view_session_users.ds'=> 'setup view_session_users.ds',
+
     ];
     
 }

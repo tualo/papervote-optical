@@ -77,17 +77,18 @@ papervote_optical
     created
     modified
 */
+
 CREATE OR REPLACE PROCEDURE `proc_papervote_optical`( IN in_pagination_id bigint)
 BEGIN 
     declare use_box_id varchar(25);
     declare use_stack_id  varchar(25);
+  
     delete from stimmzettel2 where id = in_pagination_id;
-    
-    for r in (select * from papervote_optical where pagination_id in ( select pagination_id from view_papervote_optical_result where stimmzettel_ungueltig=0 and pagination_id = in_pagination_id) )
+
+    /*
+    for r in (select   box_id,min(created) created, min(modified) modified from papervote_optical group by box_id)
     do
         set use_box_id = if( ifnull( r.box_id,0) ='',0, ifnull(r.box_id,0) );
-        set use_stack_id = if( ifnull(r.stack_id,0) ='',0, ifnull(r.stack_id,0) );
-
         insert ignore into kisten2 (
             ridx,
             id,
@@ -111,6 +112,15 @@ BEGIN
             cast(r.created as time),
             cast(r.modified as time)
         );
+
+    end for;
+
+
+    for r in (select  box_id, stack_id,min(created) created, min(modified) modified from papervote_optical group by  box_id, stack_id)
+    do
+        set use_box_id = if( ifnull( r.box_id,0) ='',0, ifnull(r.box_id,0) );
+        set use_stack_id = if( ifnull(r.stack_id,0) ='',0, ifnull(r.stack_id,0) );
+
 
         insert ignore into stapel2 (
             ridx,
@@ -138,6 +148,27 @@ BEGIN
             cast(r.modified as time)
         );
 
+    end for;
+    */
+
+    for r in (
+    select
+        
+        pagination_id,
+        box_id,
+        stack_id,
+        ballotpaper_id,
+        created,
+        modified,
+        login 
+    from view_papervote_optical_result where stimmzettel_ungueltig=0 and pagination_id = in_pagination_id
+    ) 
+    do
+        set use_box_id = if( ifnull( r.box_id,0) ='',0, ifnull(r.box_id,0) );
+        set use_stack_id = if( ifnull(r.stack_id,0) ='',0, ifnull(r.stack_id,0) );
+
+        
+
 
         insert into stimmzettel2 (
             ridx,
@@ -150,7 +181,8 @@ BEGIN
             update_date,
             login,
             insert_time,
-            update_time
+            update_time,
+            stimmzettel
         ) values (
             r.pagination_id,
             r.pagination_id,
@@ -162,7 +194,8 @@ BEGIN
             cast(r.modified as date),
             getSessionUser(),
             cast(r.created as time),
-            cast(r.modified as time)
+            cast(r.modified as time),
+            concat(r.ballotpaper_id,'|0')
         );
 
 
@@ -233,7 +266,19 @@ CREATE OR REPLACE TRIGGER `papervote_optical_ai_fill_sz2`
     AFTER INSERT
     ON `papervote_optical` FOR EACH ROW
 BEGIN
-    call proc_papervote_optical(new.pagination_id);
+
+
+-- call proc_papervote_optical(new.pagination_id);
+
+    declare use_sql longtext;
+
+    set use_sql=concat("call proc_papervote_optical(",new.pagination_id,")");
+
+          insert into deferred_sql_tasks
+                (taskid,sessionuser     ,hostname  ,sqlstatement)
+        values  (uuid(),getsessionuser(),@@hostname,use_sql );
+
+
 END //
 
 
