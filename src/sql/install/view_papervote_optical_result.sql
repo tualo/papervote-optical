@@ -143,7 +143,7 @@ with setup as (
         `papervote_optical`.pre_processed,
         `papervote_optical`.login,
         `papervote_optical`.is_final,
-        if ( `papervote_optical`.edited_marks<>'[]' and `papervote_optical`.edited_marks<> `papervote_optical`.marks, 1,  0 ) is_pending,
+        if ( json_value(`papervote_optical`.edited_marks,'$[0]')!="W" and `papervote_optical`.edited_marks<> `papervote_optical`.marks, 1,  0 ) is_pending,
         length(REGEXP_REPLACE(`papervote_optical`.marks, '[^X]', '')) anzahl_stimmzettel_kreuze,
         json_length(`papervote_optical`.`marks`) anzahl_markierungen
 
@@ -237,7 +237,7 @@ select
     papervote_optical.edited_marks,
 
     if (
-        papervote_optical.edited_marks<>'[]'
+        json_value(`papervote_optical`.edited_marks,'$[0]')!="W"
         and papervote_optical.edited_marks<> papervote_optical.marks,
         1,
         0

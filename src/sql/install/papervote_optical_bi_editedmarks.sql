@@ -1,6 +1,6 @@
 DELIMITER //
 
-/*
+
 CREATE OR REPLACE TRIGGER `papervote_optical_bi_editedmarks` 
 BEFORE INSERT ON `papervote_optical` FOR EACH ROW
 BEGIN
@@ -56,7 +56,7 @@ BEFORE UPDATE ON `papervote_optical` FOR EACH ROW
 BEGIN
     declare nv longtext;
 
-    if new.marks="[]" then
+    if new.marks="[]" and (new.edited_marks is null or new.edited_marks="[]") then
 
         with x as (select 
                 'W' notmarked,
@@ -138,4 +138,3 @@ BEGIN
         set new.edited_marks = nv;
     end if;
 end //
-*/

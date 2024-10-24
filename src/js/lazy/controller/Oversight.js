@@ -8,7 +8,13 @@ Ext.define('Tualo.PaperVoteOptical.lazy.controller.Oversight', {
             sels = me.getView().down('#docs').getSelection();
         if (sels.length>0){
             let m = JSON.parse(sels[0].get('marks'));
-             
+             if (m.length==0){
+                JSON.parse(sels[0].get('edited_marks')).forEach((v)=>
+                    
+                    {
+                    m.push('O');
+                })
+             }
             if (m[id]=='X'){
                 m[id]='O';
             }else{
