@@ -7,6 +7,7 @@ Ext.define('Tualo.PaperVoteOptical.lazy.controller.Oversight', {
         var me = this;
             sels = me.getView().down('#docs').getSelection();
         if (sels.length>0){
+            
             let m = JSON.parse(sels[0].get('marks'));
              if (m.length==0){
                 JSON.parse(sels[0].get('edited_marks')).forEach((v)=>
@@ -35,6 +36,20 @@ Ext.define('Tualo.PaperVoteOptical.lazy.controller.Oversight', {
         
     },
 
+    select: function(id){
+        var me = this,
+            store = me.getView().down('#docs').getStore(),
+            rec = store.findRecord( 'pagination_id', id, 0, false, true, true );
+        if (Ext.isEmpty(rec)){
+            if (store.getCount()>0){
+                rec = store.getRange()[0];
+            }
+        }
+        
+        if (!Ext.isEmpty(rec)){
+            me.getView().down('#docs').setSelection(rec);
+        }
+    },        
 
     onRefresh: function(){
         this.getViewModel().getStore('papervote_optical').load();
@@ -45,10 +60,12 @@ Ext.define('Tualo.PaperVoteOptical.lazy.controller.Oversight', {
         var me = this;
             sels = me.getView().down('#docs').getSelection();
         if (sels.length>0){
+            let pagination_id=sels[0].get('pagination_id');
             Tualo.Fetch.post('papervote/opticaledit/pre_processed',{
                 id: sels[0].get('pagination_id')
             }).then(function(data){
-                me.onSelect.bind(me)( null, me.getView().down('#docs').getSelection()[0], null, null )
+
+                //me.onSelect.bind(me)( null, me.getView().down('#docs').getSelection()[0], null, null )
                 if (data.success==false){
                     Ext.toast({
                         html: data.msg,
@@ -59,7 +76,13 @@ Ext.define('Tualo.PaperVoteOptical.lazy.controller.Oversight', {
                 }
                 console.log('data',data);
                 me.getView().setDisabled(false);
-                me.getViewModel().getStore('papervote_optical').load();
+                me.getViewModel().getStore('papervote_optical').load({
+                    callback: function(){
+                        setTimeout(()=>{
+                            me.select(pagination_id)
+                        },500);
+                    }
+                });
             });
             // console.log('marks',sels[0].data);
         }
@@ -71,6 +94,7 @@ Ext.define('Tualo.PaperVoteOptical.lazy.controller.Oversight', {
         var me = this;
             sels = me.getView().down('#docs').getSelection();
         if (sels.length>0){
+            let pagination_id=sels[0].get('pagination_id');
             Tualo.Fetch.post('papervote/opticaledit/confirm',{
                 id: sels[0].get('pagination_id')
             }).then(function(data){
@@ -85,7 +109,13 @@ Ext.define('Tualo.PaperVoteOptical.lazy.controller.Oversight', {
                     });
                 }
                 me.getView().setDisabled(false);
-                me.getViewModel().getStore('papervote_optical').load();
+                me.getViewModel().getStore('papervote_optical').load({
+                    callback: function(){
+                        setTimeout(()=>{
+                            me.select(pagination_id)
+                        },500);
+                    }
+                });
             });
             // console.log('marks',sels[0].data);
         }
@@ -97,6 +127,7 @@ Ext.define('Tualo.PaperVoteOptical.lazy.controller.Oversight', {
         var me = this;
             sels = me.getView().down('#docs').getSelection();
         if (sels.length>0){
+            let pagination_id=sels[0].get('pagination_id');
             Tualo.Fetch.post('papervote/opticaledit/reject',{
                 id: sels[0].get('pagination_id')
             }).then(function(data){
@@ -111,7 +142,13 @@ Ext.define('Tualo.PaperVoteOptical.lazy.controller.Oversight', {
                     });
                 }
                 me.getView().setDisabled(false);
-                me.getViewModel().getStore('papervote_optical').load();
+                me.getViewModel().getStore('papervote_optical').load({
+                    callback: function(){
+                        setTimeout(()=>{
+                            me.select(pagination_id)
+                        },500);
+                    }
+                });
             });
             // console.log('marks',sels[0].data);
         }
