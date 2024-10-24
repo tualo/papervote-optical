@@ -99,7 +99,7 @@ class SetupImage implements IRoute
 
             $taskID='123';
             if (!file_exists( dirname(self::subPath($taskID,$data['file_id'])) )) mkdir( dirname(self::subPath($taskID,$data['file_id'])) ,0777,true );
-            file_put_contents(  dirname(self::subPath($taskID,$data['file_id'])) .$data['file_id'].'.pdf' ,base64_decode($rawdata));
+            file_put_contents(  dirname(self::subPath($taskID,$data['file_id'])) .'/'.$data['file_id'].'.pdf' ,base64_decode($rawdata));
 
             
 
