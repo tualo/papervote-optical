@@ -139,13 +139,20 @@ class Image implements IRoute
 
                     $stroke_width=5;
                     $color = '#FF0000';
+
                     if ($result_row['marked'] == 'X') $color = '#00FF00';
-                    if ($result_row['edited_marked'] != ''){
-                    if ($result_row['edited_marked'] != $result_row['marked']) {
-                            $stroke_width=10;
-                            if ($result_row['edited_marked'] == 'X') $color = '#CCFF00';
-                            if ($result_row['edited_marked'] == 'O') $color = '#FFFFFF';
-                        }                    }
+                    if (is_null( $result_row['marked']=='')){
+                         $color = '#0000FF';
+                         $stroke_width=10;
+                    }else{
+                        if ($result_row['edited_marked'] != ''){
+                        if ($result_row['edited_marked'] != $result_row['marked']) {
+                                $stroke_width=10;
+                                if ($result_row['edited_marked'] == 'X') $color = '#CCFF00';
+                                if ($result_row['edited_marked'] == 'O') $color = '#FFFFFF';
+                            }                    
+                        }
+                    }
 
                     $offset = ($result_row['roi_pos'] -1 )*$row['roi_item_height'] + ($result_row['roi_pos'] -1 )* $cap ;
                     $fields[] = '<g class="hover_group"   >

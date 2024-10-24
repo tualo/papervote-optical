@@ -130,7 +130,6 @@ BEGIN
             concat(r_ballotpaper_id,'|0')
         );
 
-
         for can in (
             select 
                 view_papervote_optical_result_ballotpaper_trigger.* ,
@@ -142,6 +141,8 @@ BEGIN
             where pagination_id = r_pagination_id and marked='X'
             ) 
         do
+
+
             insert into kandidaten2(
                 ridx,
                 id,
@@ -158,7 +159,7 @@ BEGIN
                 insert_time,
                 update_time
             ) values (
-                concat(lpad(r_pagination_id,8,'0') , lpad(can.result_index,3,'0')),
+                concat(lpad(r_pagination_id,12,'0') , lpad(can.result_index,3,'0')),
                 r_pagination_id,
                 can.kandidaten_id,
                 can.barcode,
