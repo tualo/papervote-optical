@@ -172,10 +172,7 @@ config as (
                 kandidaten_bp_column.position
         ) result_index
     from 
-        setup
-        join stimmzettel
-            on stimmzettel.id = setup.ballotpaper_id
-
+        stimmzettel
         join stimmzettelgruppen
             on stimmzettelgruppen.stimmzettel = stimmzettel.ridx
         join kandidaten
@@ -261,7 +258,7 @@ from
         `config`.`stimmzettelgruppen_id` = `stimmzettelgruppen`.`id`
     )
 
-group by papervote_optical.pagination_id, config.kandidaten_id
+-- group by papervote_optical.pagination_id, config.kandidaten_id
 
 ;   
 

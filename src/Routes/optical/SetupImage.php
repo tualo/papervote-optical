@@ -21,13 +21,12 @@ class SetupImage implements IRoute
         return implode('/',[$tempdir,$taskID,$fn]);
     }
 
-    public static function getPage($id)
+    public static function getPage($id,$taskID)
     {
         
 
             $pdfPages=[];
             $jpegPages=[];
-            $taskID = 123;
 
             if (!file_exists( self::subPath($taskID,$id) )) mkdir( self::subPath($taskID,$id) ,0777,true );
     
@@ -96,11 +95,14 @@ class SetupImage implements IRoute
             $pdfdata = DSFiles::instance('stimmzettel_pdfs')->getBase64('id',$data['id']);
             // echo App::get('tempPath').'/'.$data['file_id'].'.pdf';
             list($mime,$rawdata) =  explode(',',$pdfdata);
-            file_put_contents(App::get('tempPath').'/123/'.$data['file_id'].'.pdf' ,base64_decode($rawdata));
+
+            $taskID='123';
+            if (!file_exists( self::subPath($taskID,$data['file_id']) )) mkdir( self::subPath($taskID,$data['file_id']) ,0777,true );
+            file_put_contents(  self::subPath($taskID,$data['file_id']) .$data['file_id'].'.pdf' ,base64_decode($rawdata));
 
             
 
-            $filename = self::getPage($data['file_id']);
+            $filename = self::getPage($data['file_id'],$taskID);
             $size = getimagesize($filename);
 
   //          print_r($size);
