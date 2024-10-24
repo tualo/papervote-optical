@@ -44,6 +44,7 @@ class SetupImage implements IRoute
             // $params[] = '-dAutoRotatePages=/None';
             $params[] = '"'.implode('/',[self::subPath($taskID,$id.'.pdf')]).'"';
             
+            
             exec('gs '.implode(' ',$params),$pdfwrite,$res_code);
 
             $glob_result = glob(implode('/',[self::subPath($taskID,$id),'*.png']));
@@ -97,8 +98,8 @@ class SetupImage implements IRoute
             list($mime,$rawdata) =  explode(',',$pdfdata);
 
             $taskID='123';
-            if (!file_exists( self::subPath($taskID,$data['file_id']) )) mkdir( self::subPath($taskID,$data['file_id']) ,0777,true );
-            file_put_contents(  self::subPath($taskID,$data['file_id']) .$data['file_id'].'.pdf' ,base64_decode($rawdata));
+            if (!file_exists( dirname(self::subPath($taskID,$data['file_id'])) )) mkdir( dirname(self::subPath($taskID,$data['file_id'])) ,0777,true );
+            file_put_contents(  dirname(self::subPath($taskID,$data['file_id'])) .$data['file_id'].'.pdf' ,base64_decode($rawdata));
 
             
 
