@@ -82,6 +82,7 @@ class Install extends CommandLineInstallSQL  implements ICommandline{
         'install/papervote_optical_fill'=>'setup papervote_optical_fill',
         'install/view_papervote_optical_result_ballotpaper_trigger'=>'setup view_papervote_optical_result_ballotpaper_trigger',
         
+        'install/papervote_optical_bi_editedmarks'=>'setup papervote_optical_bi_editedmarks',
 
     ];
     
