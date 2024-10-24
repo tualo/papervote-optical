@@ -145,7 +145,7 @@ class Image implements IRoute
                          $color = '#0000FF';
                          $stroke_width=10;
                     }else{
-                        if ($result_row['edited_marked'] != ''){
+                        if ($result_row['edited_marked'] != 'W'){
                         if ($result_row['edited_marked'] != $result_row['marked']) {
                                 $stroke_width=10;
                                 if ($result_row['edited_marked'] == 'X') $color = '#CCFF00';
