@@ -53,10 +53,8 @@ config as (
                 kandidaten_bp_column.position
         ) result_index
     from 
-        setup
-        join stimmzettel
-            on stimmzettel.id = setup.ballotpaper_id
-
+        stimmzettel
+       
         join stimmzettelgruppen
             on stimmzettelgruppen.stimmzettel = stimmzettel.ridx
         join kandidaten

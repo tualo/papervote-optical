@@ -98,6 +98,7 @@ class Image implements IRoute
                     on stimmzettel_roi.stimmzettel_id = stimmzettel.id
                 join sz_rois 
                     on stimmzettel_roi.sz_rois_id = sz_rois.id
+                    and view_readtable_kandidaten_bp_column.sz_rois_id = sz_rois.id
                 join sz_to_region 
                     on sz_to_region.id_sz = stimmzettel.id
                 join sz_titel_regions 
