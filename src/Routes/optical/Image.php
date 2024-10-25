@@ -141,13 +141,6 @@ class Image implements IRoute
                         
             
 
-            $imagedata = $db->singleValue('select replace(data," ","+") data from papervote_optical_data where pagination_id={id}', ['id' => $matches['id']], 'data');
-            if ($imagedata === false) {
-                http_response_code(404);
-                BasicRoute::$finished = true;
-                exit();
-            }
-            
         
 
 
