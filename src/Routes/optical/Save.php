@@ -47,7 +47,7 @@ class Save implements IRoute
                     throw new Exception("Dies ist nicht erlaubt");
                 }
                 
-                $db->direct('update papervote_optical set marks = edited_marks  where pagination_id={id} and  marks <> edited_marks and edited_marks<>"[]"', $_POST);
+                $db->direct('update papervote_optical set marks = edited_marks  where pagination_id={id} and  marks <> edited_marks and json_value(`papervote_optical`.edited_marks,"$[0]")!="W"', $_POST);
                 $db->direct('update papervote_optical set is_final = 1  where pagination_id={id}', $_POST);
 
                 App::result('success', true);
