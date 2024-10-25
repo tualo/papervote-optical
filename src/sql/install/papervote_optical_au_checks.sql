@@ -1,5 +1,5 @@
 
-
+delimiter ;
 
 alter table papervote_optical add if not exists anzahl_markierungen	int(10) default 0;
 alter table papervote_optical add if not exists anzahl_stimmzettel_kreuze	int(10) default 0;
@@ -16,7 +16,8 @@ alter table papervote_optical add if not exists is_pending	tinyint(4) default 0;
 alter table papervote_optical add if not exists for_review	tinyint(4) default 0;
 
 
- 
+delimiter //
+
 
 CREATE OR REPLACE TRIGGER `papervote_optical_bu_checks` 
 BEFORE
