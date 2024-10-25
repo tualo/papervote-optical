@@ -29,6 +29,7 @@ class Image implements IRoute
             }
             list($mime, $data) =  explode(',', $imagedata);
             $size = (getimagesizefromstring(base64_decode($data)));
+            $etag = md5($data);
             
             $imagedata = './papervote/opticalimage/'.$matches['id'];
 
@@ -140,6 +141,14 @@ class Image implements IRoute
                         
             
 
+            $imagedata = $db->singleValue('select replace(data," ","+") data from papervote_optical_data where pagination_id={id}', ['id' => $matches['id']], 'data');
+            if ($imagedata === false) {
+                http_response_code(404);
+                BasicRoute::$finished = true;
+                exit();
+            }
+            
+        
 
 
             App::contenttype('image/svg+xml');
@@ -148,7 +157,7 @@ class Image implements IRoute
                 DataRenderer::renderTemplate($svg, [
                     'rois_svg' => implode("\n",$roisRegionSVG),
                     'fields' => implode("\n",$fields),
-                    'imageurl' => $imagedata,
+                    'imageurl' => $imagedata.'?tag='.$etag,
                     'width' => $size[0],
                     'height' => $size[1]
                 ])
