@@ -58,8 +58,10 @@ class Save implements IRoute
                 App::result('success', true);
                 $db->commit();
 
+                /*
                 $db->direct('call proc_papervote_optical_ai_mat_table({id}) ', $_POST);
                 $db->commit();
+                */
 
             } catch (Exception $e) {
                 $db->rollback();
@@ -124,8 +126,10 @@ class Save implements IRoute
                 App::result('success', true);
                 $db->commit();
 
+                /*
                 $db->direct('call proc_papervote_optical_ai_mat_table({id}) ', $_POST);
                 $db->commit();
+                */
 
             } catch (Exception $e) {
                 $db->rollback();
@@ -149,9 +153,10 @@ class Save implements IRoute
                 App::result('success', true);
                 $db->commit();
 
+                /*
                 $db->direct('call proc_papervote_optical_ai_mat_table({id}) ', $_POST);
                 $db->commit();
-                
+                */
             } catch (Exception $e) {
                 $db->rollback();
                 App::result('msg', $e->getMessage());

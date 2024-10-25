@@ -1,6 +1,8 @@
 DELIMITER ;
 
-
+/*
+TESTING DO NOT USE
+*/
 
 alter table mat_view_papervote_optical_result modify pagination_id bigint(20) primary key;
 
@@ -94,7 +96,7 @@ BEGIN
         edited_marks,
         for_review
     from view_papervote_optical_result 
-    where pagination_id = new.pagination_id
+    where pagination_id = in_pagination_id
     on duplicate key update
 
     marked=values(marked),
