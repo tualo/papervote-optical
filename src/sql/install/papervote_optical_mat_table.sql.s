@@ -24,191 +24,78 @@ DELIMITER //
 
 
 
+CREATE OR REPLACE PROCEDURE `proc_papervote_optical_ai_mat_table`( IN in_pagination_id bigint)
+BEGIN 
 
 
-CREATE OR REPLACE TRIGGER `papervote_optical_ai_mat_table` 
-AFTER
-INSERT ON `papervote_optical` FOR EACH ROW BEGIN
-
-
-
-insert into mat_view_papervote_optical_result (
-    marked,
-    pagination_id,
-    box_id,
-    stack_id,
-    modified,
-    created,
-    ballotpaper_id,
-    result_index,
-    kandidaten_id,
-    stimmzettel_id,
-    sz_rois_id,
-    anzeige_name,
-    anzahl_markierungen,
-    marks,
-    anzahl_stimmzettel_kreuze,
-    stimmzettel_ungueltig,
-    stimmzettel_enthaltung,
-    stimmzettel_name,
-    stimmzettel_sitze,
-    stimmzettelgruppen_name,
-    stimmzettelgruppen_id,
-    stimmzettelgruppen_sitze,
-    stimmzettelgruppen_ungueltig,
-    stimmzettelgruppen_enthaltung,
-    is_final,
-    is_informed,
-    pre_processed,
-    is_pending,
-    login,
-    edited_marks,
-    for_review
-)
-select 
-    marked,
-    pagination_id,
-    box_id,
-    stack_id,
-    modified,
-    created,
-    ballotpaper_id,
-    result_index,
-    kandidaten_id,
-    stimmzettel_id,
-    sz_rois_id,
-    anzeige_name,
-    anzahl_markierungen,
-    marks,
-    anzahl_stimmzettel_kreuze,
-    stimmzettel_ungueltig,
-    stimmzettel_enthaltung,
-    stimmzettel_name,
-    stimmzettel_sitze,
-    stimmzettelgruppen_name,
-    stimmzettelgruppen_id,
-    stimmzettelgruppen_sitze,
-    stimmzettelgruppen_ungueltig,
-    stimmzettelgruppen_enthaltung,
-    is_final,
-    is_informed,
-    pre_processed,
-    is_pending,
-    login,
-    edited_marks,
-    for_review
-from view_papervote_optical_result 
-where pagination_id = new.pagination_id
-on duplicate key update
-
-marked=values(marked),
-pagination_id=values(pagination_id),
-box_id=values(box_id),
-stack_id=values(stack_id),
-modified=values(modified),
-created=values(created),
-ballotpaper_id=values(ballotpaper_id),
-result_index=values(result_index),
-kandidaten_id=values(kandidaten_id),
-stimmzettel_id=values(stimmzettel_id),
-sz_rois_id=values(sz_rois_id),
-anzeige_name=values(anzeige_name),
-anzahl_markierungen=values(anzahl_markierungen),
-marks=values(marks),
-anzahl_stimmzettel_kreuze=values(anzahl_stimmzettel_kreuze),
-stimmzettel_ungueltig=values(stimmzettel_ungueltig),
-stimmzettel_enthaltung=values(stimmzettel_enthaltung),
-stimmzettel_name=values(stimmzettel_name),
-stimmzettel_sitze=values(stimmzettel_sitze),
-stimmzettelgruppen_name=values(stimmzettelgruppen_name),
-stimmzettelgruppen_id=values(stimmzettelgruppen_id),
-stimmzettelgruppen_sitze=values(stimmzettelgruppen_sitze),
-stimmzettelgruppen_ungueltig=values(stimmzettelgruppen_ungueltig),
-stimmzettelgruppen_enthaltung=values(stimmzettelgruppen_enthaltung),
-is_final=values(is_final),
-is_informed=values(is_informed),
-pre_processed=values(pre_processed),
-is_pending=values(is_pending),
-login=values(login),
-edited_marks=values(edited_marks),
-for_review=values(for_review);
-
-END //
-
-CREATE OR REPLACE TRIGGER `papervote_optical_au_mat_table` 
-AFTER
-UPDATE ON `papervote_optical` FOR EACH ROW BEGIN
-
-
-
-insert into mat_view_papervote_optical_result (
-    marked,
-    pagination_id,
-    box_id,
-    stack_id,
-    modified,
-    created,
-    ballotpaper_id,
-    result_index,
-    kandidaten_id,
-    stimmzettel_id,
-    sz_rois_id,
-    anzeige_name,
-    anzahl_markierungen,
-    marks,
-    anzahl_stimmzettel_kreuze,
-    stimmzettel_ungueltig,
-    stimmzettel_enthaltung,
-    stimmzettel_name,
-    stimmzettel_sitze,
-    stimmzettelgruppen_name,
-    stimmzettelgruppen_id,
-    stimmzettelgruppen_sitze,
-    stimmzettelgruppen_ungueltig,
-    stimmzettelgruppen_enthaltung,
-    is_final,
-    is_informed,
-    pre_processed,
-    is_pending,
-    login,
-    edited_marks,
-    for_review
-)
-select 
-    marked,
-    pagination_id,
-    box_id,
-    stack_id,
-    modified,
-    created,
-    ballotpaper_id,
-    result_index,
-    kandidaten_id,
-    stimmzettel_id,
-    sz_rois_id,
-    anzeige_name,
-    anzahl_markierungen,
-    marks,
-    anzahl_stimmzettel_kreuze,
-    stimmzettel_ungueltig,
-    stimmzettel_enthaltung,
-    stimmzettel_name,
-    stimmzettel_sitze,
-    stimmzettelgruppen_name,
-    stimmzettelgruppen_id,
-    stimmzettelgruppen_sitze,
-    stimmzettelgruppen_ungueltig,
-    stimmzettelgruppen_enthaltung,
-    is_final,
-    is_informed,
-    pre_processed,
-    is_pending,
-    login,
-    edited_marks,
-    for_review
-from view_papervote_optical_result 
-where pagination_id = new.pagination_id
-on duplicate key update
+    insert into mat_view_papervote_optical_result (
+        marked,
+        pagination_id,
+        box_id,
+        stack_id,
+        modified,
+        created,
+        ballotpaper_id,
+        result_index,
+        kandidaten_id,
+        stimmzettel_id,
+        sz_rois_id,
+        anzeige_name,
+        anzahl_markierungen,
+        marks,
+        anzahl_stimmzettel_kreuze,
+        stimmzettel_ungueltig,
+        stimmzettel_enthaltung,
+        stimmzettel_name,
+        stimmzettel_sitze,
+        stimmzettelgruppen_name,
+        stimmzettelgruppen_id,
+        stimmzettelgruppen_sitze,
+        stimmzettelgruppen_ungueltig,
+        stimmzettelgruppen_enthaltung,
+        is_final,
+        is_informed,
+        pre_processed,
+        is_pending,
+        login,
+        edited_marks,
+        for_review
+    )
+    select 
+        marked,
+        pagination_id,
+        box_id,
+        stack_id,
+        modified,
+        created,
+        ballotpaper_id,
+        result_index,
+        kandidaten_id,
+        stimmzettel_id,
+        sz_rois_id,
+        anzeige_name,
+        anzahl_markierungen,
+        marks,
+        anzahl_stimmzettel_kreuze,
+        stimmzettel_ungueltig,
+        stimmzettel_enthaltung,
+        stimmzettel_name,
+        stimmzettel_sitze,
+        stimmzettelgruppen_name,
+        stimmzettelgruppen_id,
+        stimmzettelgruppen_sitze,
+        stimmzettelgruppen_ungueltig,
+        stimmzettelgruppen_enthaltung,
+        is_final,
+        is_informed,
+        pre_processed,
+        is_pending,
+        login,
+        edited_marks,
+        for_review
+    from view_papervote_optical_result 
+    where pagination_id = new.pagination_id
+    on duplicate key update
 
     marked=values(marked),
     pagination_id=values(pagination_id),
@@ -241,6 +128,34 @@ on duplicate key update
     login=values(login),
     edited_marks=values(edited_marks),
     for_review=values(for_review);
+
+END //
+
+
+
+CREATE OR REPLACE TRIGGER `papervote_optical_ai_mat_table` 
+AFTER
+INSERT ON `papervote_optical` FOR EACH ROW BEGIN
+
+    declare use_sql longtext;
+    set use_sql=concat("call proc_papervote_optical_ai_mat_table(",new.pagination_id,")");
+    insert into deferred_sql_tasks
+        (taskid,sessionuser     ,hostname  ,sqlstatement)
+    values  (uuid(),getsessionuser(),@@hostname,use_sql );
+
+END //
+
+CREATE OR REPLACE TRIGGER `papervote_optical_au_mat_table` 
+AFTER
+UPDATE ON `papervote_optical` FOR EACH ROW BEGIN
+    declare use_sql longtext;
+
+    set use_sql=concat("call proc_papervote_optical_ai_mat_table(",new.pagination_id,")");
+
+    insert into deferred_sql_tasks
+        (taskid,sessionuser     ,hostname  ,sqlstatement)
+    values  (uuid(),getsessionuser(),@@hostname,use_sql );
+    
 
 END //
 

@@ -26,6 +26,11 @@ class Save implements IRoute
                 $db->direct('update papervote_optical set is_final = 0, edited_marks = {marks}  where pagination_id={id} ', $_POST);
                 App::result('success', true);
                 $db->commit();
+
+                $db->direct('call proc_papervote_optical_ai_mat_table({id}) ', $_POST);
+                $db->commit();
+
+
             } catch (Exception $e) {
                 $db->rollback();
                 App::result('msg', $e->getMessage());
@@ -51,6 +56,9 @@ class Save implements IRoute
                 $db->direct('update papervote_optical set is_final = 1  where pagination_id={id}', $_POST);
 
                 App::result('success', true);
+                $db->commit();
+
+                $db->direct('call proc_papervote_optical_ai_mat_table({id}) ', $_POST);
                 $db->commit();
 
             } catch (Exception $e) {
@@ -116,6 +124,9 @@ class Save implements IRoute
                 App::result('success', true);
                 $db->commit();
 
+                $db->direct('call proc_papervote_optical_ai_mat_table({id}) ', $_POST);
+                $db->commit();
+
             } catch (Exception $e) {
                 $db->rollback();
                 App::result('msg', $e->getMessage());
@@ -137,6 +148,10 @@ class Save implements IRoute
                 $db->direct('update papervote_optical set edited_marks = "[]"  where pagination_id={id}', $_POST);
                 App::result('success', true);
                 $db->commit();
+
+                $db->direct('call proc_papervote_optical_ai_mat_table({id}) ', $_POST);
+                $db->commit();
+                
             } catch (Exception $e) {
                 $db->rollback();
                 App::result('msg', $e->getMessage());
