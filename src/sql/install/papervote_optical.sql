@@ -24,12 +24,23 @@ add if not exists `is_final` tinyint default 0;
 alter table papervote_optical
 add if not exists `pre_processed` tinyint default 0;
 
+alter table papervote_optical
+add if not exists `is_visible_ok` tinyint default 0;
+
 DELIMITER //
 
 CREATE OR REPLACE TRIGGER `papervote_optical_bu_defaults` BEFORE
 UPDATE ON `papervote_optical` FOR EACH ROW BEGIN
 set new.login = getSessionUser();
 END //
+
+CREATE OR REPLACE TRIGGER `papervote_optical_bu_defaults` BEFORE
+UPDATE ON `papervote_optical` FOR EACH ROW BEGIN
+  if  not(OLD.is_visible_ok=0 and NEW.is_visible_ok=1) then
+      set new.login = getSessionUser();
+  end if;
+END
+
 
 CREATE OR REPLACE TRIGGER `papervote_optical_bi_defaults` BEFORE
 INSERT ON `papervote_optical` FOR EACH ROW BEGIN

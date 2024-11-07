@@ -84,6 +84,26 @@ class Image implements IRoute
             exit();
             */
 
+            $testdata = $db->direct('
+            with bv as (
+                select pagination_id,pos,analyse_type,val from pagination_test_result where analyse_type="bildverarbeitung"
+            ), tf as (
+                select pagination_id,pos,analyse_type,val from pagination_test_result where analyse_type="tensorflow 32x32x150"
+            ), wz as (
+                select pagination_id,result_index - 1 pos,"zählung" analyse_type, if(marked="O",0,if(marked="W",0.5,1)) val from view_papervote_optical_result_ballotpaper
+            )
+            select 
+                bv.pagination_id,
+                bv.pos + 1 pos,
+                bv.val bv,
+                tf.val tf,
+                wz.val wz
+            from 
+                bv
+                join tf on (bv.pagination_id,bv.pos) = (tf.pagination_id,tf.pos)
+                join wz on (bv.pagination_id,bv.pos) = (wz.pagination_id,wz.pos)
+            where bv.pagination_id={id}', ['id' => $matches['id']],'pos');
+
             $roisRegionSVG = [];
             $fields = [];
             $index =0;
@@ -124,6 +144,13 @@ class Image implements IRoute
                     }
 
                     $offset = ($result_row['roi_pos'] -1 )*$row['roi_item_height'] + ($result_row['roi_pos'] -1 )* $cap ;
+
+                    $str_testdata = '';
+                    if (isset($testdata[$result_row['result_index']])){
+                        $str_testdata = '
+                        <text x="'.$roi_x.'" y="'.$roi_y + $offset*$scale_y + ($row['roi_item_height']*$scale_y) /2 .'" font-size="20">'.$testdata[$result_row['result_index']]['bv'].' '.$testdata[$result_row['result_index']]['tf'].' '.$testdata[$result_row['result_index']]['wz'].'</text>';
+
+                    }
                     $fields[] = '<g class="hover_group"   >
                     <a href="#papervote-optical/oversightclick/svg/'.($result_row['result_index'] -1 ).'" data-attr="'.$result_row['anzeige_name'].'" title="Hallo">
 
@@ -133,6 +160,7 @@ class Image implements IRoute
                         stroke-width="'.$stroke_width.'" stroke="'.$color.'"
                         fill="none"
                         ></circle>
+                        '.$str_testdata.'
                     </a>
                     </g>';
                     $index++;

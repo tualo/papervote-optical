@@ -56,7 +56,6 @@ Ext.define('Tualo.PaperVoteOptical.lazy.controller.Oversight', {
     },
 
     onPreProcessed: function (id) {
-        console.log('svg click',id);
         var me = this;
             sels = me.getView().down('#docs').getSelection();
         if (sels.length>0){
@@ -89,8 +88,41 @@ Ext.define('Tualo.PaperVoteOptical.lazy.controller.Oversight', {
         
     },
 
+
+    onOk: function (id) {
+        var me = this;
+            sels = me.getView().down('#docs').getSelection();
+        if (sels.length>0){
+            let pagination_id=sels[0].get('pagination_id');
+            Tualo.Fetch.post('papervote/opticaledit/is_ok',{
+                id: sels[0].get('pagination_id')
+            }).then(function(data){
+
+                //me.onSelect.bind(me)( null, me.getView().down('#docs').getSelection()[0], null, null )
+                if (data.success==false){
+                    Ext.toast({
+                        html: data.msg,
+                        title: 'Fehler',
+                        align: 't',
+                        iconCls: 'fa fa-warning'
+                    });
+                }
+                console.log('data',data);
+                me.getView().setDisabled(false);
+                me.getViewModel().getStore('papervote_optical').load({
+                    callback: function(){
+                        setTimeout(()=>{
+                            me.select(pagination_id)
+                        },500);
+                    }
+                });
+            });
+            // console.log('marks',sels[0].data);
+        }
+        
+    },
+
     onConfirmed: function (id) {
-        console.log('svg click',id);
         var me = this;
             sels = me.getView().down('#docs').getSelection();
         if (sels.length>0){
@@ -161,6 +193,7 @@ Ext.define('Tualo.PaperVoteOptical.lazy.controller.Oversight', {
             view = me.getView(),
             buttonDock = view.getComponent('buttonDock'),
             preProcessedButton = buttonDock.getComponent('preProcessedButton'),
+            onOkButton = buttonDock.getComponent('onOkButton'),
             confirmButton = buttonDock.getComponent('confirmButton'),
             rejectButton = buttonDock.getComponent('rejectButton');
 
@@ -168,6 +201,7 @@ Ext.define('Tualo.PaperVoteOptical.lazy.controller.Oversight', {
                 if (data.data.confirm===false) confirmButton.setDisabled(true);
                 if (data.data.reject===false) rejectButton.setDisabled(true);
                 if (data.data.pre_processed===false) preProcessedButton.setDisabled(true);
+                if (data.data.is_ok===true) onOkButton.setHidden(false);
             }
     },
     

@@ -39,7 +39,11 @@ Ext.define('Tualo.PaperVoteOptical.lazy.Oversight', {
             bind: {
                 store: '{papervote_optical}'
             }, 
-
+            
+            features: [{
+                ftype: 'summary',
+                dock: 'bottom'
+            }],
 /*
             columns: [{
                 header: 'ID',
@@ -165,6 +169,17 @@ Ext.define('Tualo.PaperVoteOptical.lazy.Oversight', {
                     itemId: 'preProcessedButton',
                     style: {
                         backgroundColor: 'rgb(255,255,100)'
+                      }
+                },
+                {
+                    xtype: 'button',
+                    iconCls: 'fa-solid fa-check',
+                    text: 'OK',
+                    handler: 'onOk',
+                    hidden: true,
+                    itemId: 'onOkButton',
+                    style: {
+                        backgroundColor: 'rgb(255,255,50)'
                       }
                 }
             ]
