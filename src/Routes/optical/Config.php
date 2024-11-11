@@ -17,6 +17,20 @@ class Config implements IRoute
 
     public static function register()
     {
+
+        BasicRoute::add('/papervote/roi/config', function ($matches) {
+            App::contenttype('application/json');
+
+            $db = App::get('session')->getDB();
+            $result = [];
+            $result = $db->direct('select * from view_papervote_roi_config');
+            echo json_encode($result);
+            BasicRoute::$finished = true;
+            http_response_code(200);
+            exit();
+        }, ['get'], true);
+        
+
         BasicRoute::add('/papervote/opticaldata/config', function ($matches) {
 
             App::contenttype('application/json');
