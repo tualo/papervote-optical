@@ -107,6 +107,43 @@ class Image implements IRoute
             $roisRegionSVG = [];
             $fields = [];
             $index =0;
+
+
+
+
+            foreach($data as $row){
+                $scale_x = $size[0]/$row['page_width'];
+                $scale_y = $size[1]/$row['page_height'];
+                $roi_x = ($row['roi_x']*$scale_x);
+                $roi_y = ($row['roi_y']*$scale_y);
+                $cap = $row['roi_item_cap_y'];
+
+            foreach($result as $result_row){
+                if( $result_row['sz_rois_id']!=$row['roi_id']) continue;
+
+                $stroke_width=5;
+                $color = '#FF0000';
+
+
+                $offset = ($result_row['roi_pos'] -1 )*$row['roi_item_height'] + ($result_row['roi_pos'] -1 )* $cap ;
+
+                $str_testdata = '';
+                if (isset($testdata[$result_row['result_index']])){
+                    $str_testdata = '
+                    <text x="'.$roi_x.'" y="'.$roi_y + $offset*$scale_y  + ($row['roi_item_height']*$scale_y) /1.1 .'" font-size="50">'.$testdata[$result_row['result_index']]['tf'] .'</text>';
+                    $str_testdata .= '
+                    <text x="'.$roi_x.'" y="'.$roi_y + $offset*$scale_y + ($row['roi_item_height']*$scale_y) /2 .'" font-size="20">'.$testdata[$result_row['result_index']]['bv'].' '.$testdata[$result_row['result_index']]['tf'].' '.$testdata[$result_row['result_index']]['wz'].'</text>';
+
+                }
+                $fields[] = '<g class="hover_groupx"   >
+                
+                    '.$str_testdata.'
+                </g>';
+                $index++;
+            }
+        }            $index =0;
+
+
             foreach($data as $row){
                 $scale_x = $size[0]/$row['page_width'];
                 $scale_y = $size[1]/$row['page_height'];
@@ -122,6 +159,9 @@ class Image implements IRoute
                     <rect x="'.$roi_x.'" y="'.$roi_y.'" opacity="0.2" fill="#0000FF" width="'.($row['roi_width']*$scale_x).'" height="'.($row['roi_height']*$scale_y).'"></rect>
                 </g>';
                 */
+
+
+
 
                 foreach($result as $result_row){
                     if( $result_row['sz_rois_id']!=$row['roi_id']) continue;
@@ -146,11 +186,13 @@ class Image implements IRoute
                     $offset = ($result_row['roi_pos'] -1 )*$row['roi_item_height'] + ($result_row['roi_pos'] -1 )* $cap ;
 
                     $str_testdata = '';
+                    /*
                     if (isset($testdata[$result_row['result_index']])){
                         $str_testdata = '
                         <text x="'.$roi_x.'" y="'.$roi_y + $offset*$scale_y + ($row['roi_item_height']*$scale_y) /2 .'" font-size="20">'.$testdata[$result_row['result_index']]['bv'].' '.$testdata[$result_row['result_index']]['tf'].' '.$testdata[$result_row['result_index']]['wz'].'</text>';
 
                     }
+                    */
                     $fields[] = '<g class="hover_group"   >
                     <a href="#papervote-optical/oversightclick/svg/'.($result_row['result_index'] -1 ).'" data-attr="'.$result_row['anzeige_name'].'" title="Hallo">
 

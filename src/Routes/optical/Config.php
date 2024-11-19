@@ -31,6 +31,20 @@ class Config implements IRoute
         }, ['get'], true);
         
 
+
+        BasicRoute::add('/papervote/title/config', function ($matches) {
+            App::contenttype('application/json');
+
+            $db = App::get('session')->getDB();
+            $result = [];
+            $result = $db->direct('select * from view_papervote_title_config');
+            BasicRoute::$finished = true;
+            App::result('success', true);
+            App::result('data', $result);
+            
+        }, ['get'], true);
+        
+
         BasicRoute::add('/papervote/opticaldata/config', function ($matches) {
 
             App::contenttype('application/json');

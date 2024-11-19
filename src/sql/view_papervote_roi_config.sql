@@ -1,4 +1,29 @@
 delimiter ;
+
+create view view_papervote_title_config as
+
+select 
+        stimmzettel.id,
+        stimmzettel.name title,
+        stimmzettel.ocr_name ocr_title,
+        sz_titel_regions.x,
+        sz_titel_regions.y,
+        sz_titel_regions.width,
+        sz_titel_regions.height,
+		sz_page_sizes.width page_width,
+		sz_page_sizes.height page_height
+	from 
+		stimmzettel 
+		join sz_to_region 
+			on sz_to_region.id_sz = stimmzettel.id
+		join sz_titel_regions 
+			on  sz_titel_regions.id = sz_to_region.id_sz_titel_regions
+		join sz_to_page_sizes 
+			on sz_to_page_sizes.id_sz = stimmzettel.id
+		join sz_page_sizes 
+			on  sz_to_page_sizes.id_sz_page_sizes = sz_page_sizes.id
+;
+
 create view view_papervote_roi_config as
 with roi as (
 	select 
