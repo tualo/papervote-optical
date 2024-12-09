@@ -84,7 +84,9 @@ class Install extends CommandLineInstallSQL  implements ICommandline{
         
         'install/papervote_optical_bi_editedmarks'=>'setup papervote_optical_bi_editedmarks',
 
-        'install/papervote_optical_au_checks' => 'setup papervote_optical_au_checks' 
+        'install/papervote_optical_au_checks' => 'setup papervote_optical_au_checks' ,
+        'kandidaten_bp_column.index' => 'setup kandidaten_bp_column.index'
+
 
     ];
     
