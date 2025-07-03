@@ -1,28 +1,31 @@
 {
-    "name": "tualo/papervote-optical",
-    "description": "tualo - papervote - optical",
-    "type": "library",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Thomas Hoffmann",
-            "email": "thomas.hoffmann@tualo.de"
-        }
-    ],
-    "autoload": {
-        "psr-4": {
-            "Tualo\\Office\\PaperVoteOptical\\": "src/"
-        },
-        "files": ["src/functions.php"]
-    },
-    "minimum-stability": "dev",
-    "require": {
-        "ramsey/uuid": "*",
-        "tualo/bsc": "*",
-        "tualo/tualojs": "*",
-        "tualo/ds": "*",
-        "tualo/monacoeditor": "*",
-        "tualo/tualopgp": "*",
-        "phpseclib/phpseclib": "*"
+  "name": "tualo/papervote-optical",
+  "description": "tualo - papervote - optical",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Thomas Hoffmann",
+      "email": "thomas.hoffmann@tualo.de"
     }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Tualo\\Office\\PaperVoteOptical\\": "src/"
+    },
+    "files": [
+      "src/functions.php"
+    ]
+  },
+  "minimum-stability": "dev",
+  "require": {
+    "ramsey/uuid": "~4.9.0",
+    "tualo/bsc": "^1.0.2",
+    "tualo/tualojs": "^1.0.1",
+    "tualo/ds": "^1.0.1",
+    "tualo/monacoeditor": "^1.0.1",
+    "tualo/tualopgp": "^1.0.1",
+    "phpseclib/phpseclib": "~3.0.46"
+  },
+  "version": "1.0.1"
 }
