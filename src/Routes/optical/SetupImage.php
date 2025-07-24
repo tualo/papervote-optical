@@ -16,46 +16,47 @@ use Tualo\Office\DS\DSFiles;
 class SetupImage implements IRoute
 {
 
-    public static function subPath($taskID,$fn){
+    public static function subPath($taskID, $fn)
+    {
         $tempdir = App::get('tempPath');
-        return implode('/',[$tempdir,$taskID,$fn]);
+        return implode('/', [$tempdir, $taskID, $fn]);
     }
 
-    public static function getPage($id,$taskID)
+    public static function getPage($id, $taskID)
     {
-        
 
-            $pdfPages=[];
-            $jpegPages=[];
 
-            if (!file_exists( self::subPath($taskID,$id) )) mkdir( self::subPath($taskID,$id) ,0777,true );
-    
-            $params = [];
-            $params[] = '-q';
-            $params[] = '-dNOPAUSE';
-            // $params[] = '-dDOPDFMARKS=false';
-            $params[] = '-dBATCH';
-            $params[] = '-sDEVICE=pngalpha';
-            $params[] = '-r144';
-            $params[] = '-sOutputFile="'.implode('/',[self::subPath($taskID,$id),'%05d.png']).'"';
-            // $params[] = '-dPDFFitPage';
-            //$params[] = '-dFIXEDMEDIA';
-            //$params[] = '-sPAPERSIZE=a4';
-            // $params[] = '-dAutoRotatePages=/None';
-            $params[] = '"'.implode('/',[self::subPath($taskID,$id.'.pdf')]).'"';
-            
-            
-            exec('gs '.implode(' ',$params),$pdfwrite,$res_code);
+        $pdfPages = [];
+        $jpegPages = [];
 
-            $glob_result = glob(implode('/',[self::subPath($taskID,$id),'*.png']));
-            foreach($glob_result as $file){
-                $pdfPages[]=$file;
-            }
-            if (count($pdfPages)!=1){
-                throw new Exception('Page count is wrong');
-            }
-            return $pdfPages[0];
-            /*
+        if (!file_exists(self::subPath($taskID, $id))) mkdir(self::subPath($taskID, $id), 0777, true);
+
+        $params = [];
+        $params[] = '-q';
+        $params[] = '-dNOPAUSE';
+        // $params[] = '-dDOPDFMARKS=false';
+        $params[] = '-dBATCH';
+        $params[] = '-sDEVICE=pngalpha';
+        $params[] = '-r144';
+        $params[] = '-sOutputFile="' . implode('/', [self::subPath($taskID, $id), '%05d.png']) . '"';
+        // $params[] = '-dPDFFitPage';
+        //$params[] = '-dFIXEDMEDIA';
+        //$params[] = '-sPAPERSIZE=a4';
+        // $params[] = '-dAutoRotatePages=/None';
+        $params[] = '"' . implode('/', [self::subPath($taskID, $id . '.pdf')]) . '"';
+
+
+        exec('gs ' . implode(' ', $params), $pdfwrite, $res_code);
+
+        $glob_result = glob(implode('/', [self::subPath($taskID, $id), '*.png']));
+        foreach ($glob_result as $file) {
+            $pdfPages[] = $file;
+        }
+        if (count($pdfPages) != 1) {
+            throw new Exception('Page count is wrong');
+        }
+        return $pdfPages[0];
+        /*
             $params = [];
             $params[] = '-q';
             $params[] = '-dNOPAUSE';
@@ -89,58 +90,57 @@ class SetupImage implements IRoute
         BasicRoute::add('/papervoteoptical/image/(?P<id>[\/.\w\d\-\_\.]+)', function ($matches) {
 
             $db = App::get('session')->getDB();
-            try{
+            try {
 
 
-            $data = DSTable::instance('stimmzettel_pdfs')->f('stimmzettel_id','eq',$matches['id'])->read()->getSingle();
-            $pdfdata = DSFiles::instance('stimmzettel_pdfs')->getBase64('id',$data['id']);
-            // echo App::get('tempPath').'/'.$data['file_id'].'.pdf';
-            list($mime,$rawdata) =  explode(',',$pdfdata);
+                $data = DSTable::instance('stimmzettel_pdfs')->f('stimmzettel_id', 'eq', $matches['id'])->read()->getSingle();
+                $pdfdata = DSFiles::instance('stimmzettel_pdfs')->getBase64('id', $data['id']);
 
-            $taskID='123';
-            if (!file_exists( dirname(self::subPath($taskID,$data['file_id'])) )) mkdir( dirname(self::subPath($taskID,$data['file_id'])) ,0777,true );
-            file_put_contents(  dirname(self::subPath($taskID,$data['file_id'])) .'/'.$data['file_id'].'.pdf' ,base64_decode($rawdata));
+                list($mime, $rawdata) =  explode(',', $pdfdata);
 
-            
-
-            $filename = self::getPage($data['file_id'],$taskID);
-            $size = getimagesize($filename);
-
-  //          print_r($size);
+                $taskID = '123';
+                if (!file_exists(dirname(self::subPath($taskID, $data['file_id'])))) mkdir(dirname(self::subPath($taskID, $data['file_id'])), 0777, true);
+                file_put_contents(dirname(self::subPath($taskID, $data['file_id'])) . '/' . $data['file_id'] . '.pdf', base64_decode($rawdata));
 
 
-            $imagedata = 'data:image/png;base64,'.base64_encode(file_get_contents($filename));
 
-/*
+                $filename = self::getPage($data['file_id'], $taskID);
+                $size = getimagesize($filename);
+
+                //          print_r($size);
+
+                $imagedata = 'data:image/png;base64,' . base64_encode(file_get_contents($filename));
+
+                /*
             echo "Breite: ".($size[0]/144*2.54)."cm\n";
             echo "Höhe: ".($size[1]/144*2.54)."cm\n";
             exit();
 */
 
-            $svg = file_get_contents(__DIR__.'/svg_setup_template.svg');
-            App::body(
-                DataRenderer::renderTemplate($svg, [
-                    //'rois_svg' => implode("\n",$roisRegionSVG),
-                    //'fields' => implode("\n",$fields),
-                    'imageurl' => $imagedata,
-                    'width' => $size[0],
-                    'height' => $size[1]
-                ])
-            );
+                $svg = file_get_contents(__DIR__ . '/svg_setup_template.svg');
+                App::body(
+                    DataRenderer::renderTemplate($svg, [
+                        //'rois_svg' => implode("\n",$roisRegionSVG),
+                        //'fields' => implode("\n",$fields),
+                        'imageurl' => $imagedata,
+                        'width' => $size[0],
+                        'height' => $size[1]
+                    ])
+                );
 
-            /*
+                /*
             $p = new Pdf(App::get('tempPath').'/'.$data['file_id'].'.pdf');
             $numberOfPages = $p->pageCount();
             exit();
             exit();
             */
-//var_dump($p);
+                //var_dump($p);
 
 
 
 
 
-            /*
+                /*
             $imagedata = $db->singleValue('select replace(data," ","+") data from `stimmzettel_pdfs`
                 left join `ds_files` on(
                     `stimmzettel_pdfs`.`file_id` = `ds_files`.`file_id`
@@ -208,15 +208,15 @@ class SetupImage implements IRoute
             );
             */
 
-            //    echo 123; exit();
-            BasicRoute::$finished = true;
-            http_response_code(200);
-        }catch(Exception $e){
-            echo $e->getMessage();
-            http_response_code(500);
-            BasicRoute::$finished = true;
-            exit();
-        }
+                //    echo 123; exit();
+                BasicRoute::$finished = true;
+                http_response_code(200);
+            } catch (Exception $e) {
+                echo $e->getMessage();
+                http_response_code(500);
+                BasicRoute::$finished = true;
+                exit();
+            }
         }, ['get'], true);
     }
 }

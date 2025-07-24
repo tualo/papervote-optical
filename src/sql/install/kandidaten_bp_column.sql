@@ -14,7 +14,6 @@ CREATE TABLE IF NOT EXISTS `kandidaten_bp_column` (
 );
 
 alter table kandidaten_bp_column add column if not exists  kandidaten_id_checked tinyint default 0;
-
 alter table kandidaten_bp_column add column if not exists  position int default 0;
 
 
@@ -62,7 +61,6 @@ from
         on stimmzettel_roi.sz_rois_id = sz_rois.id
     join stimmzettelgruppen
         on stimmzettelgruppen.stimmzettel = stimmzettel.id
-        and stimmzettelgruppen.id<>0
     join
         kandidaten
          on kandidaten.stimmzettelgruppen = stimmzettelgruppen.id
