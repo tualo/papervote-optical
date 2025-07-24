@@ -65,7 +65,7 @@ from
         and stimmzettelgruppen.id<>0
     join
         kandidaten
-         on kandidaten.stimmzettelgruppen = stimmzettelgruppen.id_sz_page_sizes
+         on kandidaten.stimmzettelgruppen = stimmzettelgruppen.id
          and kandidaten.id not in (select kandidaten_id from kandidaten_bp_column where kandidaten_id_checked=1)
 ),
 unions as (
