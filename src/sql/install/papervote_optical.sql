@@ -39,7 +39,7 @@ UPDATE ON `papervote_optical` FOR EACH ROW BEGIN
   if  not(OLD.is_visible_ok=0 and NEW.is_visible_ok=1) then
       set new.login = getSessionUser();
   end if;
-END
+END //
 
 
 CREATE OR REPLACE TRIGGER `papervote_optical_bi_defaults` BEFORE

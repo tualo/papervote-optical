@@ -10,12 +10,12 @@ from
         (
             `kandidaten`
             join `stimmzettelgruppen` on(
-                `kandidaten`.`stimmzettelgruppen` = `stimmzettelgruppen`.`ridx`
-                and stimmzettelgruppen.ridx<>'0|0'
+                `kandidaten`.`stimmzettelgruppen` = `stimmzettelgruppen`.`id`
+                and stimmzettelgruppen.id <> 0
             )
         )
         join `stimmzettel` on(
-            `stimmzettel`.`ridx` = `stimmzettelgruppen`.`stimmzettel`
+            `stimmzettel`.`id` = `stimmzettelgruppen`.`stimmzettel`
         )
     )
 group by
