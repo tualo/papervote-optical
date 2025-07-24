@@ -56,9 +56,9 @@ config as (
         stimmzettel
        
         join stimmzettelgruppen
-            on stimmzettelgruppen.stimmzettel = stimmzettel.ridx
+            on stimmzettelgruppen.stimmzettel = stimmzettel.id
         join kandidaten
-            on kandidaten.stimmzettelgruppen = stimmzettelgruppen.ridx
+            on kandidaten.stimmzettelgruppen = stimmzettelgruppen.id
 
         join kandidaten_bp_column
             on kandidaten_bp_column.stimmzettelgruppen_id = stimmzettelgruppen.id

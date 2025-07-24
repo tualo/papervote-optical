@@ -82,7 +82,7 @@ from
                                         (
                                             `view_sz_expected_marks`
                                             join `stimmzettel` on(
-                                                `stimmzettel`.`ridx` = `view_sz_expected_marks`.`id`
+                                                `stimmzettel`.`id` = `view_sz_expected_marks`.`id`
                                             )
                                         )
                                         join `stimmzettel_roi` on(

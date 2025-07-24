@@ -37,7 +37,7 @@ with clicked as (
         join stimmzettelgruppen
             on stimmzettelgruppen.id = kandidaten_bp_column.stimmzettelgruppen_id
         join stimmzettel
-            on stimmzettelgruppen.stimmzettel = stimmzettel.ridx
+            on stimmzettelgruppen.stimmzettel = stimmzettel.id
     where 
         kandidaten_id_checked=1
 ),
@@ -61,11 +61,11 @@ from
     join sz_rois
         on stimmzettel_roi.sz_rois_id = sz_rois.id
     join stimmzettelgruppen
-        on stimmzettelgruppen.stimmzettel = stimmzettel.ridx
-        and stimmzettelgruppen.ridx<>'0|0'
+        on stimmzettelgruppen.stimmzettel = stimmzettel.id
+        and stimmzettelgruppen.id<>0
     join
         kandidaten
-         on kandidaten.stimmzettelgruppen = stimmzettelgruppen.ridx
+         on kandidaten.stimmzettelgruppen = stimmzettelgruppen.id_sz_page_sizes
          and kandidaten.id not in (select kandidaten_id from kandidaten_bp_column where kandidaten_id_checked=1)
 ),
 unions as (
