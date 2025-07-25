@@ -238,6 +238,13 @@ Ext.define('Tualo.PaperVoteOptical.lazy.ScanSetup', {
             listeners: {
                 //select: 'onSelect'
             },
+            tbar: [
+                {
+                    xtype: 'button',
+                    text: 'Kandidaten speichern',
+                    handler: 'saveCandidates'
+                }
+            ],
 
             bind: {
                 store: '{kandidaten_bp_column}'

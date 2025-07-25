@@ -379,8 +379,14 @@ Ext.define('Tualo.PaperVoteOptical.lazy.controller.ScanSetup', {
     onCandidatesDataChanged: function (store) {
         var me = this;
         console.log('onCandidatesDataChanged', arguments);
+        //store.sync();
+    },
+    saveCandidates: function () {
+        var me = this;
+        let store = me.getViewModel().getStore('kandidaten_bp_column');
         store.sync();
     },
+
     onSelect: function (grid, record, index, eOpts) {
         var me = this;
 
