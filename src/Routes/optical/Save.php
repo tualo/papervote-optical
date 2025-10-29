@@ -10,7 +10,7 @@ use Tualo\Office\TualoPGP\TualoApplicationPGP;
 
 use Ramsey\Uuid\Uuid;
 
-class Save implements IRoute
+class Save extends \Tualo\Office\Basic\RouteWrapper
 {
 
 
@@ -29,8 +29,6 @@ class Save implements IRoute
 
                 $db->direct('call proc_papervote_optical_ai_mat_table({id}) ', $_POST);
                 $db->commit();
-
-
             } catch (Exception $e) {
                 $db->rollback();
                 App::result('msg', $e->getMessage());
@@ -42,16 +40,16 @@ class Save implements IRoute
             $db = App::get('session')->getDB();
             App::result('success', false);
 
-            
+
 
             $db->autoCommit(false);
             try {
                 if (
-                    $db->singleValue('select count(*) v from ds_access  join view_session_allowed_groups on view_session_allowed_groups.group = ds_access.role and ds_access.write = 1 and  table_name = "papervote_optical"',[],'v')===0
-                ){
+                    $db->singleValue('select count(*) v from ds_access  join view_session_allowed_groups on view_session_allowed_groups.group = ds_access.role and ds_access.write = 1 and  table_name = "papervote_optical"', [], 'v') === 0
+                ) {
                     throw new Exception("Dies ist nicht erlaubt");
                 }
-                
+
                 $db->direct('update papervote_optical set marks = edited_marks  where pagination_id={id} and  marks <> edited_marks and json_value(`papervote_optical`.edited_marks,"$[0]")!="W"', $_POST);
                 $db->direct('update papervote_optical set is_final = 1  where pagination_id={id}', $_POST);
 
@@ -62,7 +60,6 @@ class Save implements IRoute
                 $db->direct('call proc_papervote_optical_ai_mat_table({id}) ', $_POST);
                 $db->commit();
                 */
-
             } catch (Exception $e) {
                 $db->rollback();
                 App::result('msg', $e->getMessage());
@@ -76,34 +73,32 @@ class Save implements IRoute
             $db->autoCommit(false);
             try {
                 $data = [
-                    'confirm'=>false,
-                    'reject'=>false,
-                    'pre_processed'=>false,
-                    'is_ok'=>false
+                    'confirm' => false,
+                    'reject' => false,
+                    'pre_processed' => false,
+                    'is_ok' => false
                 ];
 
                 if (
-                    $db->singleValue('select `group` v from view_session_allowed_groups where `group` in ("administration")',[],'v')!==false
-                ){
-                    $data['pre_processed']=true;
-                    $data['is_ok']=true;
+                    $db->singleValue('select `group` v from view_session_allowed_groups where `group` in ("administration")', [], 'v') !== false
+                ) {
+                    $data['pre_processed'] = true;
+                    $data['is_ok'] = true;
                 }
                 if (
-                    $db->singleValue('select count(*) v from ds_access  join view_session_allowed_groups on view_session_allowed_groups.group = ds_access.role and ds_access.write = 1 and  table_name = "papervote_optical"',[],'v')!=0
-                ){
-                    $data['confirm']=true;
-                    $data['reject']=true;
+                    $db->singleValue('select count(*) v from ds_access  join view_session_allowed_groups on view_session_allowed_groups.group = ds_access.role and ds_access.write = 1 and  table_name = "papervote_optical"', [], 'v') != 0
+                ) {
+                    $data['confirm'] = true;
+                    $data['reject'] = true;
                 }
 
                 App::result('success', true);
                 App::result('data', $data);
                 $db->commit();
-
             } catch (Exception $e) {
                 $db->rollback();
                 App::result('msg', $e->getMessage());
             }
-
         }, ['get'], true);
 
         BasicRoute::add('/papervote/opticaledit/pre_processed', function ($matches) {
@@ -114,13 +109,13 @@ class Save implements IRoute
             try {
 
                 if (
-                    $db->singleValue('select `group` v from view_session_allowed_groups where `group` in ("administration")',[],'v')===false
-                ){
+                    $db->singleValue('select `group` v from view_session_allowed_groups where `group` in ("administration")', [], 'v') === false
+                ) {
                     throw new Exception("Dies ist nicht erlaubt");
                 }
                 if (
-                    $db->singleValue('select count(*) v from ds_access  join view_session_allowed_groups on view_session_allowed_groups.group = ds_access.role and ds_access.write = 1 and  table_name = "papervote_optical"',[],'v')===0
-                ){
+                    $db->singleValue('select count(*) v from ds_access  join view_session_allowed_groups on view_session_allowed_groups.group = ds_access.role and ds_access.write = 1 and  table_name = "papervote_optical"', [], 'v') === 0
+                ) {
                     throw new Exception("Dies ist nicht erlaubt");
                 }
                 $db->direct('update papervote_optical set  marks = edited_marks, pre_processed = 1  where pagination_id={id} and marks <> edited_marks and is_final = 0 ', $_POST);
@@ -132,7 +127,6 @@ class Save implements IRoute
                 $db->direct('call proc_papervote_optical_ai_mat_table({id}) ', $_POST);
                 $db->commit();
                 */
-
             } catch (Exception $e) {
                 $db->rollback();
                 App::result('msg', $e->getMessage());
@@ -150,13 +144,13 @@ class Save implements IRoute
             try {
 
                 if (
-                    $db->singleValue('select `group` v from view_session_allowed_groups where `group` in ("administration")',[],'v')===false
-                ){
+                    $db->singleValue('select `group` v from view_session_allowed_groups where `group` in ("administration")', [], 'v') === false
+                ) {
                     throw new Exception("Dies ist nicht erlaubt");
                 }
                 if (
-                    $db->singleValue('select count(*) v from ds_access  join view_session_allowed_groups on view_session_allowed_groups.group = ds_access.role and ds_access.write = 1 and  table_name = "papervote_optical"',[],'v')===0
-                ){
+                    $db->singleValue('select count(*) v from ds_access  join view_session_allowed_groups on view_session_allowed_groups.group = ds_access.role and ds_access.write = 1 and  table_name = "papervote_optical"', [], 'v') === 0
+                ) {
                     throw new Exception("Dies ist nicht erlaubt");
                 }
                 $db->direct('update papervote_optical set is_visible_ok = 1  where pagination_id={id} and is_final = 0 ', $_POST);
@@ -168,7 +162,6 @@ class Save implements IRoute
                 $db->direct('call proc_papervote_optical_ai_mat_table({id}) ', $_POST);
                 $db->commit();
                 */
-
             } catch (Exception $e) {
                 $db->rollback();
                 App::result('msg', $e->getMessage());
@@ -183,8 +176,8 @@ class Save implements IRoute
             $db->autoCommit(false);
             try {
                 if (
-                    $db->singleValue('select count(*) v from ds_access  join view_session_allowed_groups on view_session_allowed_groups.group = ds_access.role and ds_access.write = 1 and  table_name = "papervote_optical"',[],'v')===0
-                ){
+                    $db->singleValue('select count(*) v from ds_access  join view_session_allowed_groups on view_session_allowed_groups.group = ds_access.role and ds_access.write = 1 and  table_name = "papervote_optical"', [], 'v') === 0
+                ) {
                     throw new Exception("Dies ist nicht erlaubt");
                 }
 
@@ -225,7 +218,7 @@ class Save implements IRoute
                 if (!isset($_POST['marks'])) {
                     throw new Exception('marks is missing');
                 }
-                
+
                 if (!isset($_POST['image'])) {
                     throw new Exception('image is missing');
                 }
@@ -278,7 +271,7 @@ class Save implements IRoute
                 $db->commit();
             } catch (Exception $e) {
                 $db->rollback();
-                
+
                 App::result('msg', $e->getMessage());
             }
         }, ['post'], true);

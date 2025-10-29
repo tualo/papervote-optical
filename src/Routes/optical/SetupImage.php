@@ -13,7 +13,7 @@ use Tualo\Office\DS\DSTable;
 use Tualo\Office\DS\DSFiles;
 
 
-class SetupImage implements IRoute
+class SetupImage extends \Tualo\Office\Basic\RouteWrapper
 {
 
     public static function subPath($taskID, $fn)

@@ -10,7 +10,7 @@ use Tualo\Office\TualoPGP\TualoApplicationPGP;
 
 use Ramsey\Uuid\Uuid;
 
-class Config implements IRoute
+class Config extends \Tualo\Office\Basic\RouteWrapper
 {
 
 
@@ -27,9 +27,8 @@ class Config implements IRoute
             BasicRoute::$finished = true;
             App::result('success', true);
             App::result('data', $result);
-            
         }, ['get'], true);
-        
+
 
 
         BasicRoute::add('/papervote/title/config', function ($matches) {
@@ -41,9 +40,8 @@ class Config implements IRoute
             BasicRoute::$finished = true;
             App::result('success', true);
             App::result('data', $result);
-            
         }, ['get'], true);
-        
+
 
         BasicRoute::add('/papervote/opticaldata/config', function ($matches) {
 

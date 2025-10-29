@@ -10,14 +10,14 @@ use Tualo\Office\TualoPGP\TualoApplicationPGP;
 
 use Ramsey\Uuid\Uuid;
 
-class DetectedCodes implements IRoute
+class DetectedCodes extends \Tualo\Office\Basic\RouteWrapper
 {
 
 
 
     public static function register()
     {
-        
+
         BasicRoute::add('/papervoteoptical/(?P<box>[\/.\w\d\-\_\.]+)/(?P<stack>[\/.\w\d\-\_\.]+)/(?P<pagination>[\/.\w\d\-\_\.]+)', function ($matches) {
             App::contenttype('application/json');
             $db = App::get('session')->getDB();
@@ -32,6 +32,5 @@ class DetectedCodes implements IRoute
                 App::result('msg', $e->getMessage());
             }
         }, ['get'], true);
-        
     }
 }
