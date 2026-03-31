@@ -59,10 +59,23 @@ Ext.define('Tualo.PaperVoteOptical.lazy.models.ScanSetup', {
     kandidaten_bp_column: {
       autoLoad: false,
       type: 'kandidaten_bp_column_store',
+      proxy: {
+        reader: {
+          type: 'json',
+          rootProperty: 'data',
+          idProperty: '__id',
+          clientIdProperty: '__clientid',
+        },
+        writer: {
+          type: 'json',
+          writeAllFields: true,
+        }
+      },
       listeners: {
         datachanged: 'onCandidatesDataChanged'
       }
-    }
+    },
+
 
   }
 });

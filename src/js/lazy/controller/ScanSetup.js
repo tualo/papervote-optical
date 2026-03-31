@@ -143,9 +143,13 @@ Ext.define('Tualo.PaperVoteOptical.lazy.controller.ScanSetup', {
     },
 
     loadImage: async function (ballotpaper_id) {
-        var me = this;
+        var me = this,
+            rec = me.getViewModel().getStore('stimmzettel').findRecord('id', ballotpaper_id, 0, false, false, true);
         me.stimmzettel_id = ballotpaper_id;
-        me.stimmzettelName = me.getViewModel().getStore('stimmzettel').findRecord('id', ballotpaper_id, 0, false, false, true).get('name');
+
+        if (rec) {
+            me.stimmzettelName = rec.get('name');
+        }
 
         let response = await fetch('./papervoteoptical/image/' + ballotpaper_id);
         let data = await response.text();
