@@ -28,12 +28,38 @@ Ext.define('Tualo.PaperVoteOptical.lazy.models.ScanSetup', {
 
     stimmzettel_roi: {
       type: 'stimmzettel_roi_store',
+      proxy: {
+        reader: {
+          type: 'json',
+          rootProperty: 'data',
+          idProperty: '__id',
+          clientIdProperty: '__clientid',
+        },
+        writer: {
+          type: 'json',
+          writeAllFields: true,
+        }
+      },
+
       autoLoad: false
     },
 
     sz_rois: {
       type: 'sz_rois_store',
       autoLoad: false,
+      proxy: {
+        reader: {
+          type: 'json',
+          rootProperty: 'data',
+          idProperty: '__id',
+          clientIdProperty: '__clientid',
+        },
+        writer: {
+          type: 'json',
+          writeAllFields: true,
+        }
+      },
+
       listeners: {
         write: 'onRoisWrite'
       }
@@ -42,6 +68,19 @@ Ext.define('Tualo.PaperVoteOptical.lazy.models.ScanSetup', {
     sz_titel_regions: {
       type: 'sz_titel_regions_store',
       autoLoad: false,
+      proxy: {
+        reader: {
+          type: 'json',
+          rootProperty: 'data',
+          idProperty: '__id',
+          clientIdProperty: '__clientid',
+        },
+        writer: {
+          type: 'json',
+          writeAllFields: true,
+        }
+      },
+
       listeners: {
         write: 'onTitelRegionsWrite'
       }
@@ -50,6 +89,19 @@ Ext.define('Tualo.PaperVoteOptical.lazy.models.ScanSetup', {
     sz_to_region: {
       type: 'sz_to_region_store',
       autoLoad: false,
+      proxy: {
+        reader: {
+          type: 'json',
+          rootProperty: 'data',
+          idProperty: '__id',
+          clientIdProperty: '__clientid',
+        },
+        writer: {
+          type: 'json',
+          writeAllFields: true,
+        }
+      },
+
       listeners: {
         write: 'onToRegionsWrite'
       }
