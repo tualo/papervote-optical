@@ -34,7 +34,7 @@ Ext.define('Tualo.PaperVoteOptical.lazy.controller.ScanSetup', {
             sz_rois.filter([
                 {
                     property: 'stimmzettel_id',
-                    operator: 'like',
+                    operator: 'eq',
                     value: value
                 }
             ]);
@@ -70,7 +70,7 @@ Ext.define('Tualo.PaperVoteOptical.lazy.controller.ScanSetup', {
             stimmzettel_roi.filter([
                 {
                     property: 'stimmzettel_id',
-                    operator: 'like',
+                    operator: 'eq',
                     value: value
                 }
             ]);
@@ -422,12 +422,12 @@ Ext.define('Tualo.PaperVoteOptical.lazy.controller.ScanSetup', {
         kandidaten.filter([
             {
                 property: 'stimmzettel_id',
-                operator: 'like',
+                operator: 'eq',
                 value: me.stimmzettel_id + ""
             },
             {
                 property: 'sz_rois_id',
-                operator: 'like',
+                operator: 'eq',
                 value: record.get('id')
             }
         ]);
