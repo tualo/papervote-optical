@@ -33,7 +33,7 @@ BEGIN
             join stimmzettelgruppen
                 on stimmzettelgruppen.id = kandidaten_bp_column.stimmzettelgruppen_id
             join stimmzettel
-                on stimmzettelgruppen.stimmzettel = stimmzettel.ridx
+                on stimmzettelgruppen.stimmzettel = stimmzettel.id
             join kandidaten
                 on kandidaten.id = kandidaten_bp_column.kandidaten_id
         where 
@@ -84,7 +84,7 @@ BEGIN
                 join stimmzettelgruppen
                     on stimmzettelgruppen.id = kandidaten_bp_column.stimmzettelgruppen_id
                 join stimmzettel
-                    on stimmzettelgruppen.stimmzettel = stimmzettel.ridx
+                    on stimmzettelgruppen.stimmzettel = stimmzettel.id
                 join kandidaten
                     on kandidaten.id = kandidaten_bp_column.kandidaten_id
             where 
@@ -125,7 +125,7 @@ BEGIN
                 join stimmzettelgruppen
                     on stimmzettelgruppen.id = kandidaten_bp_column.stimmzettelgruppen_id
                 join stimmzettel
-                    on stimmzettelgruppen.stimmzettel = stimmzettel.ridx
+                    on stimmzettelgruppen.stimmzettel = stimmzettel.id
                 join kandidaten
                     on kandidaten.id = kandidaten_bp_column.kandidaten_id
             where 

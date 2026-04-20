@@ -37,16 +37,17 @@ with roi as (
 		sz_rois.item_height roi_item_height,
 		sz_rois.item_cap_y roi_item_cap_y,
 		sz_page_sizes.width page_width,
-		sz_page_sizes.height page_height
+		sz_page_sizes.height page_height,
+stimmzettel.sitze max_allowed
 	from 
 		stimmzettel 
 		join stimmzettel_roi 
 			on stimmzettel_roi.stimmzettel_id = stimmzettel.id
 		join sz_rois 
 			on stimmzettel_roi.sz_rois_id = sz_rois.id
-		join sz_to_region 
+		left join sz_to_region 
 			on sz_to_region.id_sz = stimmzettel.id
-		join sz_titel_regions 
+		left join sz_titel_regions 
 			on  sz_titel_regions.id = sz_to_region.id_sz_titel_regions
 		join sz_to_page_sizes 
 			on sz_to_page_sizes.id_sz = stimmzettel.id
@@ -64,7 +65,8 @@ with roi as (
 		roi.roi_item_cap_y,
 		roi.page_width,
 		roi.page_height,
-        cnt.cnt 
+        cnt.cnt ,
+        max_allowed
 		
 	from 
 		roi 

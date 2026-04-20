@@ -4,11 +4,13 @@ CREATE OR REPLACE PROCEDURE `proc_sz_rois_item_height`()
 BEGIN
     for rec in (select id as sz_rois_id from sz_rois)
     do
+        select rec.sz_rois_id;
         set @c = (select count(*) from kandidaten_bp_column where kandidaten_bp_column.sz_rois_id = rec.sz_rois_id and kandidaten_id_checked=1);
+        select @c;
         if (@c>0) then
             update sz_rois set item_height = (sz_rois.height - ((
                 select count(*) from kandidaten_bp_column where kandidaten_bp_column.sz_rois_id = rec.sz_rois_id and kandidaten_id_checked=1
-            )-1)* if(sz_rois.item_cap_y=0,0.5,sz_rois.item_cap_y)
+            )-1)* if(ifnull(sz_rois.item_cap_y,0)=0,0.5,sz_rois.item_cap_y)
             ) / (
                 select count(*) from kandidaten_bp_column where kandidaten_bp_column.sz_rois_id = rec.sz_rois_id and kandidaten_id_checked=1
             )

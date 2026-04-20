@@ -43,6 +43,12 @@ class Config extends \Tualo\Office\Basic\RouteWrapper
         }, ['get'], true);
 
 
+
+        BasicRoute::alias('/papervote/view_ballotpaper_barcode/read', '/ds/view_ballotpaper_barcode/read');
+        BasicRoute::alias('/papervote/view_ballotpaper_sizes/read', '/ds/view_ballotpaper_sizes/read');
+
+
+
         BasicRoute::add('/papervote/opticaldata/config', function ($matches) {
 
             App::contenttype('application/json');

@@ -1,4 +1,6 @@
 DELIMITER;
+
+
 CREATE TABLE IF NOT EXISTS `papervote_optical` (
   `pagination_id` bigint(20) NOT NULL,
   `box_id` varchar(32) NOT NULL,
@@ -11,21 +13,19 @@ CREATE TABLE IF NOT EXISTS `papervote_optical` (
   `login` varchar(255) NOT NULL,
   `created` timestamp NOT NULL DEFAULT current_timestamp(),
   `modified` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  PRIMARY KEY (`pagination_id`)
+  KEY `idx_papervote_optical_pagination_id` (`pagination_id`),
+  PRIMARY KEY (`pagination_id`,`box_id`,`stack_id`)
 );
-alter table papervote_optical
-modify `marks` JSON NOT NULL;
-alter table papervote_optical
-add if not exists `login` varchar(255) DEFAULT 'NA';
-alter table papervote_optical
-add if not exists `edited_marks` JSON NOT NULL DEFAUlT '[]';
-alter table papervote_optical
-add if not exists `is_final` tinyint default 0;
-alter table papervote_optical
-add if not exists `pre_processed` tinyint default 0;
 
-alter table papervote_optical
-add if not exists `is_visible_ok` tinyint default 0;
+
+
+
+alter table papervote_optical modify `marks` JSON NOT NULL;
+alter table papervote_optical add if not exists `login` varchar(255) DEFAULT 'NA';
+alter table papervote_optical add if not exists `edited_marks` JSON NOT NULL DEFAUlT '[]';
+alter table papervote_optical add if not exists `is_final` tinyint default 0;
+alter table papervote_optical add if not exists `pre_processed` tinyint default 0;
+alter table papervote_optical add if not exists `is_visible_ok` tinyint default 0;
 
 DELIMITER //
 
@@ -48,6 +48,8 @@ set new.login = getSessionUser();
 END // 
 
 DELIMITER ;
+
+
 create table if not exists `papervote_optical_data` (
   `pagination_id` bigint not null,
   `data` longtext not null,
