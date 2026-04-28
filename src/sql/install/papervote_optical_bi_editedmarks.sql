@@ -1,5 +1,4 @@
-DELIMITER //
-
+DELIMITER /
 
 CREATE OR REPLACE TRIGGER `papervote_optical_bi_editedmarks` 
 BEFORE INSERT ON `papervote_optical` FOR EACH ROW

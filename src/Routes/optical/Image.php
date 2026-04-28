@@ -77,6 +77,8 @@ class Image extends \Tualo\Office\Basic\RouteWrapper
                     on  sz_to_page_sizes.id_sz_page_sizes = sz_page_sizes.id
             where 
                 stimmzettel.id={ballotpaper_id}';
+
+                $sql = 'select * from view_papervote_roi_config where id={ballotpaper_id} order by roi_y,roi_x';
                 $data = $db->direct($sql, ['ballotpaper_id' => $ballotpaper_id]);
 
                 /*
